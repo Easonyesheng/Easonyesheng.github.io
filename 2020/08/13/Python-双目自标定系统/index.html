@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monds:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="基于opencv。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python实现的双目相机自标定系统">
+<meta property="og:url" content="http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="指北集">
+<meta property="og:description" content="基于opencv。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg">
+<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/right.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Easonyesheng/MarkdownPictures/master/RectUncalibLeft.jpg">
+<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/RectUncalibRight.jpg">
+<meta property="article:published_time" content="2020-08-13T07:48:08.000Z">
+<meta property="article:modified_time" content="2020-08-13T07:50:20.757Z">
+<meta property="article:author" content="Eason Zhang">
+<meta property="article:tag" content="双目视觉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python实现的双目相机自标定系统 | 指北集</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/Easonyesheng" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">指北集</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">二十一世纪漫游指北</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Eason Zhang">
+      <meta itemprop="description" content="二十一世纪漫游指北">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="指北集">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python实现的双目相机自标定系统
+        </h1>
+
+        <div class="post-meta">
+        
+          
+            <i class="fa fa-thumb-tack"></i>
+            <font color=7D26CD>置顶</font>
+            <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-13 15:48:08 / 修改时间：15:50:20" itemprop="dateCreated datePublished" datetime="2020-08-13T15:48:08+08:00">2020-08-13</time>
+            </span>
+
+          
+            <div class="post-description">基于opencv。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python实现的双目相机自标定系统"><a href="#Python实现的双目相机自标定系统" class="headerlink" title="Python实现的双目相机自标定系统"></a>Python实现的双目相机自标定系统</h1><hr>
+<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><p>python-opencv 3.14<br>numpy<br>os<br>sys  </p>
+<hr>
+<h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">st&#x3D;&gt;start: Load Dataset</span><br><span class="line">op1&#x3D;&gt;operation: Estimate Fundamental matrix</span><br><span class="line">op2&#x3D;&gt;operation: Get essential matrix</span><br><span class="line">op3&#x3D;&gt;operation: Get camera matrix[R t]</span><br><span class="line">op4&#x3D;&gt;operation: Rectify Images</span><br><span class="line">ed&#x3D;&gt;end: Output Images</span><br><span class="line">st-&gt;op1-&gt;op2-&gt;op3-&gt;op4-&gt;ed</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="读入图片和参数"><a href="#读入图片和参数" class="headerlink" title="读入图片和参数"></a>读入图片和参数</h2><p>图片是使用常规的imread，重点是参数的读取。<br>这里选取的参数是kitti的标定文件，读取方式如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Paser</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    Paser the calib_file </span></span><br><span class="line"><span class="string">    return a dictionary</span></span><br><span class="line"><span class="string">    use it as :</span></span><br><span class="line"><span class="string">        calib = self.Paser()</span></span><br><span class="line"><span class="string">        K1, K2 = self.calib[&#x27;K_0&#123;&#125;&#x27;.format(f_cam)], self.calib[&#x27;K_0&#123;&#125;&#x27;.format(t_cam)]</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    d = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> open(self.calib_path) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> l.startswith(<span class="string">&quot;calib_time&quot;</span>):</span><br><span class="line">                d[<span class="string">&quot;calib_time&quot;</span>] = l[l.index(<span class="string">&quot;calib_time&quot;</span>)+<span class="number">1</span>:]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                [k,v] = l.split(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">                k,v = k.strip(), v.strip()</span><br><span class="line">                <span class="comment">#get the numbers out</span></span><br><span class="line">                v = [float(x) <span class="keyword">for</span> x <span class="keyword">in</span> v.strip().split(<span class="string">&quot; &quot;</span>)]</span><br><span class="line">                v = np.array(v)</span><br><span class="line">                <span class="keyword">if</span> len(v) == <span class="number">9</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line">                <span class="keyword">elif</span> len(v) == <span class="number">3</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">3</span>,<span class="number">1</span>))</span><br><span class="line">                <span class="keyword">elif</span> len(v) == <span class="number">5</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">5</span>,<span class="number">1</span>))</span><br><span class="line">                d[k] = v</span><br><span class="line">    <span class="keyword">return</span> d</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="估计基础矩阵"><a href="#估计基础矩阵" class="headerlink" title="估计基础矩阵"></a>估计基础矩阵</h2><p>基础矩阵的估计采用的是传统的算法，可选的是<strong>SIFT+RANSAC</strong>和<strong>SIFT+LMedS</strong>。<br>关键代码如下：  </p>
+<p>提取特征点算法SIFT:  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">sift = cv2.xfeatures2d.SIFT_create()</span><br><span class="line"></span><br><span class="line"><span class="comment"># find the keypoints and descriptors with SIFT</span></span><br><span class="line">kp1, des1 = sift.detectAndCompute(img1,<span class="literal">None</span>)</span><br><span class="line">kp2, des2 = sift.detectAndCompute(img2,<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># FLANN parameters</span></span><br><span class="line">FLANN_INDEX_KDTREE = <span class="number">0</span></span><br><span class="line">index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = <span class="number">5</span>)</span><br><span class="line">search_params = dict(checks=<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">flann = cv2.FlannBasedMatcher(index_params,search_params)</span><br><span class="line">matches = flann.knnMatch(des1,des2,k=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">good = []</span><br><span class="line">pts1 = []</span><br><span class="line">pts2 = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># ratio test as per Lowe&#x27;s paper</span></span><br><span class="line"><span class="keyword">for</span> i,(m,n) <span class="keyword">in</span> enumerate(matches):</span><br><span class="line">    <span class="keyword">if</span> m.distance &lt; <span class="number">0.8</span>*n.distance:</span><br><span class="line">        good.append(m)</span><br><span class="line">        pts2.append(kp2[m.trainIdx].pt)</span><br><span class="line">        pts1.append(kp1[m.queryIdx].pt)</span><br><span class="line">pts1 = np.int32(pts1)</span><br><span class="line">pts2 = np.int32(pts2)</span><br><span class="line">F,mask = cv2.findFundamentalMat(pts1,pts2,cv2.FM_LMEDS)</span><br><span class="line"></span><br><span class="line"><span class="comment"># mask 是之前的对应点中的内点的标注，为1则是内点。</span></span><br><span class="line"><span class="comment"># select the inlier points</span></span><br><span class="line">pts1 = pts1[mask.ravel() == <span class="number">1</span>]</span><br><span class="line">pts2 = pts2[mask.ravel() == <span class="number">1</span>]</span><br><span class="line">self.match_pts1 = np.int32(pts1)</span><br><span class="line">self.match_pts2 = np.int32(pts2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由坐标估计基础矩阵：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> method == <span class="string">&quot;RANSAC&quot;</span>:</span><br><span class="line">    self.FE, self.Fmask = cv2.findFundamentalMat(self.match_pts1,</span><br><span class="line">                                            self.match_pts2,</span><br><span class="line">                                            cv2.FM_RANSAC, <span class="number">0.1</span>, <span class="number">0.99</span>)</span><br><span class="line"><span class="keyword">elif</span> method == <span class="string">&quot;LMedS&quot;</span>:</span><br><span class="line">    self.FE, self.Fmask = cv2.findFundamentalMat(self.match_pts1,</span><br><span class="line">                                            self.match_pts2,</span><br><span class="line">                                            cv2.FM_LMEDS, <span class="number">0.1</span>, <span class="number">0.99</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对于基础矩阵估计的精度，有两个评价标准以及一个可视化的方法。<br><strong>Metrics</strong><br><strong>1.对极几何约束</strong><br>根据对极几何，基础矩阵和两张图的对应点之间满足以下公式：<br>$xFx’=0$<br>所以通过计算这个式子，可以大致判断基础矩阵的精度。<br><strong>2.对极线距离</strong><br>基础矩阵描述的是左图的点到右图对应极线的变换，而且右图的对应点也应该在这条极线上。<br>通过计算，点到极线的距离，就可以大致评价基础矩阵的精度。  </p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">EpipolarConstraint</span>(<span class="params">self,F,pts1,pts2</span>):</span></span><br><span class="line">       <span class="string">&#x27;&#x27;&#x27;Epipolar Constraint</span></span><br><span class="line"><span class="string">           calculate the epipolar constraint </span></span><br><span class="line"><span class="string">           x^T*F*x</span></span><br><span class="line"><span class="string">           :output </span></span><br><span class="line"><span class="string">               err_permatch</span></span><br><span class="line"><span class="string">       &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">       print(<span class="string">&#x27;Use &#x27;</span>,len(pts1),<span class="string">&#x27; points to calculate epipolar constraints.&#x27;</span>)</span><br><span class="line">       <span class="keyword">assert</span> len(pts1) == len(pts2)</span><br><span class="line">       err = <span class="number">0.0</span></span><br><span class="line">       <span class="keyword">for</span> p1, p2 <span class="keyword">in</span> zip(pts1, pts2):</span><br><span class="line">           hp1, hp2 = np.ones((<span class="number">3</span>,<span class="number">1</span>)), np.ones((<span class="number">3</span>,<span class="number">1</span>))</span><br><span class="line">           hp1[:<span class="number">2</span>,<span class="number">0</span>], hp2[:<span class="number">2</span>,<span class="number">0</span>] = p1, p2</span><br><span class="line">           err += np.abs(np.dot(hp2.T, np.dot(F, hp1)))</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> err / float(len(pts1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">SymEpiDis</span>(<span class="params">self, F, pts1, pts2</span>):</span></span><br><span class="line">       <span class="string">&quot;&quot;&quot;Symetric Epipolar distance</span></span><br><span class="line"><span class="string">           calculate the Symetric Epipolar distance</span></span><br><span class="line"><span class="string">       &quot;&quot;&quot;</span></span><br><span class="line">       epsilon = <span class="number">1e-5</span></span><br><span class="line">       <span class="keyword">assert</span> len(pts1) == len(pts2)</span><br><span class="line">       print(<span class="string">&#x27;Use &#x27;</span>,len(pts1),<span class="string">&#x27; points to calculate epipolar distance.&#x27;</span>)</span><br><span class="line">       err = <span class="number">0.</span></span><br><span class="line">       <span class="keyword">for</span> p1, p2 <span class="keyword">in</span> zip(pts1, pts2):</span><br><span class="line">           hp1, hp2 = np.ones((<span class="number">3</span>,<span class="number">1</span>)), np.ones((<span class="number">3</span>,<span class="number">1</span>))</span><br><span class="line">           hp1[:<span class="number">2</span>,<span class="number">0</span>], hp2[:<span class="number">2</span>,<span class="number">0</span>] = p1, p2</span><br><span class="line">           fp, fq = np.dot(F, hp1), np.dot(F.T, hp2)</span><br><span class="line">           sym_jjt = <span class="number">1.</span>/(fp[<span class="number">0</span>]**<span class="number">2</span> + fp[<span class="number">1</span>]**<span class="number">2</span> + epsilon) + <span class="number">1.</span>/(fq[<span class="number">0</span>]**<span class="number">2</span> + fq[<span class="number">1</span>]**<span class="number">2</span> + epsilon)</span><br><span class="line">           err = err + ((np.dot(hp2.T, np.dot(F, hp1))**<span class="number">2</span>) * (sym_jjt + epsilon))</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> err / float(len(pts1))</span><br></pre></td></tr></table></figure>
+
+<p><strong>可视化</strong><br>可视化是通过画出两张图上的对应点和极线来实现的。<br>因为极线会交于一点（极点），通过这个可以大致判断基础矩阵的精度。<br>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">DrawEpipolarLines</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;For F Estimation visulization, drawing the epipolar lines</span></span><br><span class="line"><span class="string">        1. find epipolar lines</span></span><br><span class="line"><span class="string">        2. draw lines</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.FE.all()</span><br><span class="line">    <span class="keyword">except</span> AttributeError:</span><br><span class="line">        self.EstimateFM() <span class="comment"># use RANSAC as default</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.match_pts1.all()</span><br><span class="line">    <span class="keyword">except</span> AttributeError:</span><br><span class="line">        self.ExactGoodMatch()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Find epilines corresponding to points in right image (second image)</span></span><br><span class="line">    <span class="comment"># and drawing its lines on left image</span></span><br><span class="line">    pts2re = self.match_pts2.reshape(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    lines1 = cv2.computeCorrespondEpilines(pts2re, <span class="number">2</span>, self.FE)</span><br><span class="line">    lines1 = lines1.reshape(<span class="number">-1</span>, <span class="number">3</span>)</span><br><span class="line">    img3, img4 = self._draw_epipolar_lines_helper(self.imgl, self.imgr,</span><br><span class="line">                                                    lines1, self.match_pts1,</span><br><span class="line">                                                    self.match_pts2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Find epilines corresponding to points in left image (first image) and</span></span><br><span class="line">    <span class="comment"># drawing its lines on right image</span></span><br><span class="line">    pts1re = self.match_pts1.reshape(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    lines2 = cv2.computeCorrespondEpilines(pts1re, <span class="number">1</span>, self.FE)</span><br><span class="line">    lines2 = lines2.reshape(<span class="number">-1</span>, <span class="number">3</span>)</span><br><span class="line">    img1, img2 = self._draw_epipolar_lines_helper(self.imgr, self.imgl,</span><br><span class="line">                                                    lines2, self.match_pts2,</span><br><span class="line">                                                    self.match_pts1)</span><br><span class="line"></span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;epipolarleft.jpg&quot;</span>),img1)</span><br><span class="line">    <span class="comment"># print(&quot;Saved in &quot;,os.path.join(self.SavePath,&quot;epipolarleft.jpg&quot;))</span></span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;epipolarright.jpg&quot;</span>),img3)</span><br><span class="line"></span><br><span class="line">    cv2.startWindowThread()</span><br><span class="line">    cv2.imshow(<span class="string">&quot;left&quot;</span>, img1)</span><br><span class="line">    cv2.imshow(<span class="string">&quot;right&quot;</span>, img3)</span><br><span class="line">    k = cv2.waitKey()</span><br><span class="line">    <span class="keyword">if</span> k == <span class="number">27</span>:</span><br><span class="line">        cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="由基础矩阵分解本质矩阵"><a href="#由基础矩阵分解本质矩阵" class="headerlink" title="由基础矩阵分解本质矩阵"></a>由基础矩阵分解本质矩阵</h2><p>这一步用到的公式是：$E = Kl\times F\times Kr$<br>代码如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_Get_Essential_Matrix</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Get Essential Matrix from Fundamental Matrix</span></span><br><span class="line"><span class="string">        E = Kl^T*F*Kr</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    self.E = self.Kl.T.dot(self.FE).dot(self.Kr)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="由本质矩阵分解得到相机矩阵-R-T"><a href="#由本质矩阵分解得到相机矩阵-R-T" class="headerlink" title="由本质矩阵分解得到相机矩阵[R|T]"></a>由本质矩阵分解得到相机矩阵[R|T]</h2><p>这里要用到SVD分解，并且要根据结果来测试四种可能性。具体原理可以去看<em>Multiple View Geometry in computer vision</em>.<br>代码如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_Get_R_T</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Get the [R|T] camera matrix</span></span><br><span class="line"><span class="string">        After geting the R,T, need to determine whether the points are in front of the images</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># decompose essential matrix into R, t (See Hartley and Zisserman 9.13)</span></span><br><span class="line">    U, S, Vt = np.linalg.svd(self.E)</span><br><span class="line">    W = np.array([<span class="number">0.0</span>, <span class="number">-1.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>,</span><br><span class="line">                    <span class="number">1.0</span>]).reshape(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># iterate over all point correspondences used in the estimation of the</span></span><br><span class="line">    <span class="comment"># fundamental matrix</span></span><br><span class="line">    first_inliers = []</span><br><span class="line">    second_inliers = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(self.Fmask)):</span><br><span class="line">        <span class="keyword">if</span> self.Fmask[i]:</span><br><span class="line">            <span class="comment"># normalize and homogenize the image coordinates</span></span><br><span class="line">            first_inliers.append(self.Kl_inv.dot([self.match_pts1[i][<span class="number">0</span>],</span><br><span class="line">                                    self.match_pts1[i][<span class="number">1</span>], <span class="number">1.0</span>]))</span><br><span class="line">            second_inliers.append(self.Kr_inv.dot([self.match_pts2[i][<span class="number">0</span>],</span><br><span class="line">                                    self.match_pts2[i][<span class="number">1</span>], <span class="number">1.0</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Determine the correct choice of second camera matrix</span></span><br><span class="line">    <span class="comment"># only in one of the four configurations will all the points be in</span></span><br><span class="line">    <span class="comment"># front of both cameras</span></span><br><span class="line">    <span class="comment"># First choice: R = U * Wt * Vt, T = +u_3 (See Hartley Zisserman 9.19)</span></span><br><span class="line">    R = U.dot(W).dot(Vt)</span><br><span class="line">    T = U[:, <span class="number">2</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> self._in_front_of_both_cameras(first_inliers, second_inliers,</span><br><span class="line">                                            R, T):</span><br><span class="line">        <span class="comment"># Second choice: R = U * W * Vt, T = -u_3</span></span><br><span class="line">        T = - U[:, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> self._in_front_of_both_cameras(first_inliers, second_inliers,</span><br><span class="line">                                            R, T):</span><br><span class="line">        <span class="comment"># Third choice: R = U * Wt * Vt, T = u_3</span></span><br><span class="line">        R = U.dot(W.T).dot(Vt)</span><br><span class="line">        T = U[:, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self._in_front_of_both_cameras(first_inliers,</span><br><span class="line">                                                second_inliers, R, T):</span><br><span class="line">            <span class="comment"># Fourth choice: R = U * Wt * Vt, T = -u_3</span></span><br><span class="line">            T = - U[:, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    self.match_inliers1 = first_inliers</span><br><span class="line">    self.match_inliers2 = second_inliers</span><br><span class="line">    self.Rt1 = np.hstack((np.eye(<span class="number">3</span>), np.zeros((<span class="number">3</span>, <span class="number">1</span>)))) <span class="comment"># as defaluted RT </span></span><br><span class="line">    self.Rt2 = np.hstack((R, T.reshape(<span class="number">3</span>, <span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="图片校正"><a href="#图片校正" class="headerlink" title="图片校正"></a>图片校正</h2><p>这里我提供了两种校正的算法。<br>一种是要用到之前的相机参数实现的校正，依赖于cv2.stereoRectify()<br>都是固有流程，原理见<em>Multiple View Geometry in computer vision</em><br>代码如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RectifyImg</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Rectify images using cv2.stereoRectify()</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.FE.all()</span><br><span class="line">    <span class="keyword">except</span> AttributeError:</span><br><span class="line">        self.EstimateFM() <span class="comment"># Using traditional method as default</span></span><br><span class="line"></span><br><span class="line">    self._Get_Essential_Matrix()</span><br><span class="line">    self._Get_R_T()</span><br><span class="line"></span><br><span class="line">    R = self.Rt2[:, :<span class="number">3</span>]</span><br><span class="line">    T = self.Rt2[:, <span class="number">3</span>]</span><br><span class="line">    <span class="comment">#perform the rectification</span></span><br><span class="line">    R1, R2, P1, P2, Q, roi1, roi2 = cv2.stereoRectify(self.Kl, self.dl,</span><br><span class="line">                                                        self.Kr, self.dr,</span><br><span class="line">                                                        self.imgl.shape[:<span class="number">2</span>],</span><br><span class="line">                                                        R, T, alpha=<span class="number">0</span>)</span><br><span class="line">    mapx1, mapy1 = cv2.initUndistortRectifyMap(self.Kl, self.dl, R1, P1,</span><br><span class="line">                                                [self.imgl.shape[<span class="number">0</span>],self.imgl.shape[<span class="number">1</span>]],</span><br><span class="line">                                                cv2.CV_32FC1)</span><br><span class="line">    mapx2, mapy2 = cv2.initUndistortRectifyMap(self.Kr, self.dr, R2, P2,</span><br><span class="line">                                                [self.imgl.shape[<span class="number">0</span>],self.imgl.shape[<span class="number">1</span>]],</span><br><span class="line">                                                cv2.CV_32FC1)</span><br><span class="line">    img_rect1 = cv2.remap(self.imgl, mapx1, mapy1, cv2.INTER_LINEAR)</span><br><span class="line">    img_rect2 = cv2.remap(self.imgr, mapx2, mapy2, cv2.INTER_LINEAR)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># save</span></span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;RectedLeft.jpg&quot;</span>),img_rect1)</span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;RectedRight.jpg&quot;</span>),img_rect2)</span><br></pre></td></tr></table></figure>
+
+<p>另外一种是不需要相机内参的校正算法，依赖于cv2.stereoRectifyUncalibrated()<br>代码如下：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">returnH1_H2</span>(<span class="params">points1,points2,F,size</span>):</span></span><br><span class="line">    p1=points1.reshape(len(points1)*<span class="number">2</span>,<span class="number">1</span>)<span class="comment">#stackoverflow上需要将(m,2)的点变为(m*2,1),因为不变在c++中会产生内存溢出</span></span><br><span class="line">    p2=points2.reshape(len(points2)*<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">    _,H1,H2=cv2.stereoRectifyUncalibrated(p1,p2,F,size) <span class="comment">#size是宽，高</span></span><br><span class="line">    <span class="keyword">return</span> H1,H2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="结果及说明"><a href="#结果及说明" class="headerlink" title="结果及说明"></a>结果及说明</h2><p>校正前：<br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg" alt="Oringinal Left"><br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/right.jpg" alt="Oringinal Right"></p>
+<p>校正后：<br><img src="https://raw.githubusercontent.com/Easonyesheng/MarkdownPictures/master/RectUncalibLeft.jpg" alt="Rectifyed Left"><br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/RectUncalibRight.jpg" alt="Rectifyed Right"></p>
+<p>完整的代码在我的GitHub<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/StereoCamera">项目</a>中有，记得给个Star。<br><em>中国人喜欢折中。如果你告诉他们不要白嫖，他们往往偏要看了用了不Star，如果你告诉他们给钱才能看才能用，他们就会Star来代替给钱。 – 周树人</em>  </p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/" rel="tag"># 双目视觉</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/13/DIP4/" rel="prev" title="数字图像处理总结4">
+      <i class="fa fa-chevron-left"></i> 数字图像处理总结4
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E7%9B%AE%E7%9B%B8%E6%9C%BA%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">Python实现的双目相机自标定系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Requirements"><span class="nav-number">1.1.</span> <span class="nav-text">Requirements</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%85%A5%E5%9B%BE%E7%89%87%E5%92%8C%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">读入图片和参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%B0%E8%AE%A1%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5"><span class="nav-number">1.4.</span> <span class="nav-text">估计基础矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B1%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E6%9C%AC%E8%B4%A8%E7%9F%A9%E9%98%B5"><span class="nav-number">1.5.</span> <span class="nav-text">由基础矩阵分解本质矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B1%E6%9C%AC%E8%B4%A8%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E5%BE%97%E5%88%B0%E7%9B%B8%E6%9C%BA%E7%9F%A9%E9%98%B5-R-T"><span class="nav-number">1.6.</span> <span class="nav-text">由本质矩阵分解得到相机矩阵[R|T]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%A0%A1%E6%AD%A3"><span class="nav-number">1.7.</span> <span class="nav-text">图片校正</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E5%8F%8A%E8%AF%B4%E6%98%8E"><span class="nav-number">1.8.</span> <span class="nav-text">结果及说明</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason Zhang"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Eason Zhang</p>
+  <div class="site-description" itemprop="description">二十一世纪漫游指北</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://https//github.com/Easonyesheng" title="GitHub → https:&#x2F;&#x2F;https:&#x2F;&#x2F;github.com&#x2F;Easonyesheng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:easonzhangyesheng@gmail.com" title="E-Mail → mailto:easonzhangyesheng@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/p/1005056828848313/home?from=page_100505&mod=TAB&is_all=1#place" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;p&#x2F;1005056828848313&#x2F;home?from&#x3D;page_100505&amp;mod&#x3D;TAB&amp;is_all&#x3D;1#place" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eason Zhang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

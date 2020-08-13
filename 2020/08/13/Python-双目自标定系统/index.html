@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="指北集">
 <meta property="og:description" content="基于opencv。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg">
-<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/right.jpg">
-<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/blob/master/RectUncalibLeft.jpg">
-<meta property="og:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/RectUncalibRight.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200205151923511.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200205151909275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0Vhc29ueWVzaGVuZy9NYXJrZG93blBpY3R1cmVzL21hc3Rlci9SZWN0VW5jYWxpYkxlZnQuanBn?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200205151838386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-08-13T07:48:08.000Z">
-<meta property="article:modified_time" content="2020-08-13T08:12:22.127Z">
+<meta property="article:modified_time" content="2020-08-13T08:20:38.836Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200205151923511.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70">
 
 <link rel="canonical" href="http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/">
 
@@ -203,7 +203,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-08-13 15:48:08 / 修改时间：16:12:22" itemprop="dateCreated datePublished" datetime="2020-08-13T15:48:08+08:00">2020-08-13</time>
+              <time title="创建时间：2020-08-13 15:48:08 / 修改时间：16:20:38" itemprop="dateCreated datePublished" datetime="2020-08-13T15:48:08+08:00">2020-08-13</time>
             </span>
 
           
@@ -221,7 +221,8 @@
         <h1 id="Python实现的双目相机自标定系统"><a href="#Python实现的双目相机自标定系统" class="headerlink" title="Python实现的双目相机自标定系统"></a>Python实现的双目相机自标定系统</h1><hr>
 <h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><p>python-opencv 3.14<br>numpy<br>os<br>sys  </p>
 <hr>
-<h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><p>···flow<br>    st=&gt;start: Load Dataset<br>    op1=&gt;operation: Estimate Fundamental matrix<br>    op2=&gt;operation: Get essential matrix<br>    op3=&gt;operation: Get camera matrix[R t]<br>    op4=&gt;operation: Rectify Images<br>    ed=&gt;end: Output Images<br>    st-&gt;op1-&gt;op2-&gt;op3-&gt;op4-&gt;ed<br>···</p>
+<h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><div id="flowchart-0" class="flow-chart"></div>
+
 <hr>
 <h2 id="读入图片和参数"><a href="#读入图片和参数" class="headerlink" title="读入图片和参数"></a>读入图片和参数</h2><p>图片是使用常规的imread，重点是参数的读取。<br>这里选取的参数是kitti的标定文件，读取方式如下：  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Paser</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    Paser the calib_file </span></span><br><span class="line"><span class="string">    return a dictionary</span></span><br><span class="line"><span class="string">    use it as :</span></span><br><span class="line"><span class="string">        calib = self.Paser()</span></span><br><span class="line"><span class="string">        K1, K2 = self.calib[&#x27;K_0&#123;&#125;&#x27;.format(f_cam)], self.calib[&#x27;K_0&#123;&#125;&#x27;.format(t_cam)]</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    d = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> open(self.calib_path) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> l.startswith(<span class="string">&quot;calib_time&quot;</span>):</span><br><span class="line">                d[<span class="string">&quot;calib_time&quot;</span>] = l[l.index(<span class="string">&quot;calib_time&quot;</span>)+<span class="number">1</span>:]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                [k,v] = l.split(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">                k,v = k.strip(), v.strip()</span><br><span class="line">                <span class="comment">#get the numbers out</span></span><br><span class="line">                v = [float(x) <span class="keyword">for</span> x <span class="keyword">in</span> v.strip().split(<span class="string">&quot; &quot;</span>)]</span><br><span class="line">                v = np.array(v)</span><br><span class="line">                <span class="keyword">if</span> len(v) == <span class="number">9</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line">                <span class="keyword">elif</span> len(v) == <span class="number">3</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">3</span>,<span class="number">1</span>))</span><br><span class="line">                <span class="keyword">elif</span> len(v) == <span class="number">5</span>:</span><br><span class="line">                    v = v.reshape((<span class="number">5</span>,<span class="number">1</span>))</span><br><span class="line">                d[k] = v</span><br><span class="line">    <span class="keyword">return</span> d</span><br></pre></td></tr></table></figure>
@@ -257,10 +258,16 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">returnH1_H2</span>(<span class="params">points1,points2,F,size</span>):</span></span><br><span class="line">    p1=points1.reshape(len(points1)*<span class="number">2</span>,<span class="number">1</span>)<span class="comment">#stackoverflow上需要将(m,2)的点变为(m*2,1),因为不变在c++中会产生内存溢出</span></span><br><span class="line">    p2=points2.reshape(len(points2)*<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">    _,H1,H2=cv2.stereoRectifyUncalibrated(p1,p2,F,size) <span class="comment">#size是宽，高</span></span><br><span class="line">    <span class="keyword">return</span> H1,H2</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="结果及说明"><a href="#结果及说明" class="headerlink" title="结果及说明"></a>结果及说明</h2><p>校正前：<br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/left.jpg" alt="Oringinal Left"><br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/right.jpg" alt="Oringinal Right"></p>
-<p>校正后：<br><img src="https://github.com/Easonyesheng/MarkdownPictures/blob/master/RectUncalibLeft.jpg" alt="Rectifyed Left"><br><img src="https://github.com/Easonyesheng/MarkdownPictures/raw/master/RectUncalibRight.jpg" alt="Rectifyed Right"></p>
+<h2 id="结果及说明"><a href="#结果及说明" class="headerlink" title="结果及说明"></a>结果及说明</h2><p>校正前：<br><img src="https://img-blog.csdnimg.cn/20200205151923511.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70" alt="Oringinal Left"><br><img src="https://img-blog.csdnimg.cn/20200205151909275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70" alt="Oringinal Right"></p>
+<p>校正后：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0Vhc29ueWVzaGVuZy9NYXJrZG93blBpY3R1cmVzL21hc3Rlci9SZWN0VW5jYWxpYkxlZnQuanBn?x-oss-process=image/format,png" alt="Rectifyed Left"><br><img src="https://img-blog.csdnimg.cn/20200205151838386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70" alt="Rectifyed Right"></p>
 <p>完整的代码在我的GitHub<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/StereoCamera">项目</a>中有，记得给个Star。<br><em>中国人喜欢折中。如果你告诉他们不要白嫖，他们往往偏要看了用了不Star，如果你告诉他们给钱才能看才能用，他们就会Star来代替给钱。 – 周树人</em>  </p>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">    st=>start: Load Dataset
+    op1=>operation: Estimate Fundamental matrix
+    op2=>operation: Get essential matrix
+    op3=>operation: Get camera matrix[R t]
+    op4=>operation: Rectify Images
+    ed=>end: Output Images
+    st->op1->op2->op3->op4->ed</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script>
     </div>
 
     

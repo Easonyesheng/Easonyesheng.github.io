@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="二十一世纪漫游指北">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+  <meta name="description" content="卷积运算和图像滤波。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字图像处理总结2">
+<meta property="og:url" content="http://yoursite.com/2020/08/13/DIP2/index.html">
 <meta property="og:site_name" content="指北集">
-<meta property="og:description" content="二十一世纪漫游指北">
+<meta property="og:description" content="卷积运算和图像滤波。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-11T07:07:01.000Z">
-<meta property="article:modified_time" content="2020-08-11T07:08:11.069Z">
+<meta property="article:published_time" content="2020-08-13T06:41:07.000Z">
+<meta property="article:modified_time" content="2020-08-13T06:44:33.598Z">
 <meta property="article:author" content="Eason Zhang">
+<meta property="article:tag" content="数字图像处理">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/categories/">
+<link rel="canonical" href="http://yoursite.com/2020/08/13/DIP2/">
 
 
 <script id="page-configurations">
@@ -40,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类 | 指北集
-</title>
+  <title>数字图像处理总结2 | 指北集</title>
   
 
 
@@ -188,51 +188,129 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/13/DIP2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Eason Zhang">
+      <meta itemprop="description" content="二十一世纪漫游指北">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="指北集">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数字图像处理总结2
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">分类
-</h1>
+        <div class="post-meta">
+        
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2020-08-13 14:41:07 / 修改时间：14:44:33" itemprop="dateCreated datePublished" datetime="2020-08-13T14:41:07+08:00">2020-08-13</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">卷积运算和图像滤波。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="数字图像处理总结2"><a href="#数字图像处理总结2" class="headerlink" title="数字图像处理总结2"></a>数字图像处理总结2</h1><p>卷积运算和图像滤波</p>
+<hr>
+<h2 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h2><p>对图像的操纵分为点操作，代数操作，几何操作和领域操作。<br>卷积运算就是领域操作中的一个，而提到卷积，就不得不说他的姊妹correlation。<br>话不多说，先看公式：<br>convolution : $f*w=\sum_{(a,b)\in w}f(x-a,y-b)w(a,b)$<br>correlation : $f \bigotimes w=\sum _{(a,b) \in w}f(x+a,y+b)w(a,b) $<br>f是原图，k是kernel。a,b是kernel中的点坐标，默认kernel的中心坐标为（0，0）。<br>可以看出两者的区别主要是原图的坐标变换是+ or -<br>而且因为convolution是 - ，在代码中具体运算时，需要将kernel旋转$180^\circ$。<br>一句话描述卷积的过程：对一个以某点为中心，kernel大小的原图区域，对应乘上旋转过的kernel的元素并求和，结果来作为kernel中心那个像素的新的灰度值，对图中所有点作该操作，就是一个卷积。  </p>
+<hr>
+<h2 id="图像滤波"><a href="#图像滤波" class="headerlink" title="图像滤波"></a>图像滤波</h2><p>图像滤波就是用不同的kernel进行卷积操作。<br>根据kernel的不同，又分为很多目的不同的操作，如边缘检测、图像平滑等。<br>下面就举几个常见的例子：  </p>
+<hr>
+<h3 id="Edge-Detection"><a href="#Edge-Detection" class="headerlink" title="Edge Detection"></a>Edge Detection</h3><p><strong>典型算子：</strong><br>Roberts：<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 \<br>  0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  0 &amp; -1 \<br>  1 &amp; 0 \<br> \end{matrix}<br>\right |<br>$$</p>
+<p>Prewitt:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -1 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 1 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>Sobel:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -2 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 2 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -2 &amp; 0 &amp; 2 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>通过观察可以看出，这三个算子都强调不同像素间的差，其实就是离散形式的导数，所以这三个算子都是在求图片的梯度。<br>而求梯度，就是突出变化，也就是能够得到图片的中像素值变化剧烈的地方，也就是边缘。  </p>
+<hr>
+<h3 id="图像平滑"><a href="#图像平滑" class="headerlink" title="图像平滑"></a>图像平滑</h3><p><strong>典型算子：</strong><br>平均滤波：<br>$$<br>\left [<br> \begin{matrix}<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br> \end{matrix}<br>\right ]<br>$$<br>中值滤波：<br>这个算子不是寻常的计算算子，而是将3x3范围内的中值作为中心的灰度值。<br>是一种统计学算子。<br>Gaussian:<br>$G(x,y)={1/{2\pi \sigma^2}} \times e^{-{x^2+y^2}/{2\sigma^2}}$<br>这个式子指的是高斯滤波器对应位置的值，其中一个关键元素是$\sigma$，是方差，在滤波时一般自己选定，他决定了高斯分布的峰高和宽（越大越矮、宽）  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>实现时主要是依赖于opencv的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.filter2D(img,<span class="number">-1</span>,filter)</span><br></pre></td></tr></table></figure>
+
+<p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag"># 数字图像处理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/11/DIP-1/" rel="prev" title="数字图像处理总结1">
+      <i class="fa fa-chevron-left"></i> 数字图像处理总结1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/13/DIP3/" rel="next" title="图像处理总结3">
+      图像处理总结3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="category-all-page">
-            <div class="category-all-title">
-              暂无分类
-            </div>
-            <div class="category-all">
-              
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -283,6 +361,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%932"><span class="nav-number">1.</span> <span class="nav-text">数字图像处理总结2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.</span> <span class="nav-text">卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%BB%A4%E6%B3%A2"><span class="nav-number">1.2.</span> <span class="nav-text">图像滤波</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Detection"><span class="nav-number">1.2.1.</span> <span class="nav-text">Edge Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91"><span class="nav-number">1.2.2.</span> <span class="nav-text">图像平滑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code"><span class="nav-number">1.3.</span> <span class="nav-text">Code</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -426,6 +505,61 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

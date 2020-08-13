@@ -6,7 +6,7 @@
   <link href="http://yoursite.com/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-13T06:44:24.074Z</updated>
+  <updated>2020-08-13T06:51:45.563Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>DIP4</title>
+    <title>数字图像处理总结4</title>
     <link href="http://yoursite.com/2020/08/13/DIP4/"/>
     <id>http://yoursite.com/2020/08/13/DIP4/</id>
     <published>2020-08-13T06:43:46.000Z</published>
-    <updated>2020-08-13T06:44:24.074Z</updated>
+    <updated>2020-08-13T06:51:45.563Z</updated>
     
     <content type="html"><![CDATA[<h1 id="图像处理总结4"><a href="#图像处理总结4" class="headerlink" title="图像处理总结4"></a>图像处理总结4</h1><p>灰度形态学<br>之前说过：<br><strong>形态学起源于法国巴黎高等矿业学院，因为人家是搞地质的。</strong><br><strong>可见一斑，形态学的精要就是在于将图像看作是等高线组成的地形图，他的基本操作就是动土，平高填低等等。</strong><br>之前的二值形态学针对的是二值图片，在地形上，就像是现代的建筑，拔地而起没有一定的梯度。<br>而这篇是针对灰度图片的形态学，这时的图片就更像自然界的地貌，像山川，像河谷。  </p><hr><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>基本操作也是腐蚀和膨胀。<br><strong>Dilation（膨胀）：</strong><br>先看公式：$F\bigoplus k=max_{a,b\in k}{F(x-a,y-b)+k(a,b)}$<br>同样有两种算法。<br>1）平移<br>对原图先加上SE对应部分的值，再向SE对应的位置平移，然后取最大值。<br>比如，现在有一个一维的SE: [1,2,3], 中心点定为第一个点，就是“1”。<br>那么首先对应于“1”，则是原图位置不变加1.<br>对于“2”，原图灰度值加2，向右平移一位。<br>对于“3”，原图灰度值加3，向右平移两位。<br>最后将三张图重合，并在原图区域取最大值，作为结果图。<br>2）盖章<br>SE在原图上滑动，每个滑动的位置，SE与原图相加，中心点取SE范围内最大值作为结果。<br>这个程序上好实现。<br>==直观上，就是原图亮的地方会更亮（整体亮度增加），且范围扩大。==<br><strong>Erosion（腐蚀）：</strong><br>公式：$F\bigodot k=min_{a,b \in k}{F(x-a,y-b)-k(a,b)}$<br>与膨胀不同的就是与SE相减，取最小值。<br>==直观上就是，暗的地方会更暗（整体亮度减小）==<br><strong>Open（开）：</strong><br>先腐蚀后膨胀。<br>==直观上就是消除了原图上比SE小的亮处。==<br><strong>Close（闭）：</strong><br>先膨胀后腐蚀。<br>==直观上与Open相反，消除了暗处。==  </p><hr><h2 id="组合算法"><a href="#组合算法" class="headerlink" title="组合算法"></a>组合算法</h2><p><strong>TopHat Transform:</strong><br>高帽变换分为白色高帽变换和黑色高帽变换。<br>白色是指将灰度Close过的图和原图相减。<br>黑色是指将原图与灰度Open过的图相减。<br>总之就是留下了灰度形态学操作突出的部分。  </p><p><strong>Grayscale Reconstruction:</strong><br>灰度重建分为OBR和CBR。<br>一个是针对Open后的图片重建。<br>一个是针对Close后的图片重建。<br>重建算法就是不断膨胀，但每次膨胀后与原图比较，将灰度值高于原图处的点置为原图的灰度值。<br>意思就是不能超过原图的灰度值。重复膨胀直到稳定。<br>==类似二值里面的Conditional Dilation==</p><p><strong>梯度：</strong><br>灰度形态学也有梯度，和二值里面的相同。  </p><hr><h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的算法都可以在我的GitHub里的<a href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>包括灰度形态学基本操作（D，E，O，C），以及部分组合算法。<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>用法见readme文件。<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>]]></content>
     
@@ -36,11 +36,11 @@
   </entry>
   
   <entry>
-    <title>图像处理总结3</title>
+    <title>数字图像处理总结3</title>
     <link href="http://yoursite.com/2020/08/13/DIP3/"/>
     <id>http://yoursite.com/2020/08/13/DIP3/</id>
     <published>2020-08-13T06:42:02.000Z</published>
-    <updated>2020-08-13T06:43:04.981Z</updated>
+    <updated>2020-08-13T06:51:32.301Z</updated>
     
     <content type="html"><![CDATA[<h1 id="图像处理总结3"><a href="#图像处理总结3" class="headerlink" title="图像处理总结3"></a>图像处理总结3</h1><p>二值形态学<br><strong>形态学起源于法国巴黎高等矿业学院，因为人家是搞地质的。</strong><br><strong>可见一斑，形态学的精要就是在于将图像看作是等高线组成的地形图，他的基本操作就是动土，平高填低等等。</strong><br>当然，这是哲学层面的抽象概念，太玄，还是整点实际的。<br>==需要注意的是，这里处理的图片都是二值图片（0 or 1）。==  </p><hr><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p><strong>结构元素（SE）</strong><br>就是你要动土的那块地方多大，以及要怎么动土。  </p><p><strong>腐蚀（Erosion）：</strong><br>先看公式：$E(F,k)=F\bigodot k=\bigcap ({ a+b|a \in F})$<br>F：原图，k：SE<br>这里就有两种看法。<br>第一种，核心：<em>平移</em><br>原图按照结构元素平移，在原图大小里取交集。<br>这里要关心SE的中心在哪里，SE里有1的地方就是要平移的方向。<br>第二种，核心：<em>盖章</em><br>SE在原图上平移，只有能够完全包住SE的位置的点置1，其他置0.<br>==腐蚀能够让抹去图片上的小亮点，打断小连接，总之会让图片中亮处整体缩小。==  </p><p><strong>膨胀（Dilation）：</strong><br>公式：$D(F,k)=F\bigoplus k=\bigcup ({ a-b|a\in F})$<br>同样的两种看法，平移的时候是取并集，盖章的时候是只要SE有于原图区域中重合的地方，中心点就置1。<br>==膨胀能够让图片亮处整体扩大。==  </p><p><strong>开（Open）：</strong><br>先腐蚀后膨胀。<br>==可以抹去图片中size小于SE的点和连接，而不会对其他的部分造成大的破坏。==  </p><p><strong>闭（Close）：</strong><br>先膨胀再腐蚀。<br>==可以填补小于SE size的空洞，弥合size小于SE的裂缝，而不会对其他的部分造成大的破坏。==  </p><hr><h2 id="组合算法"><a href="#组合算法" class="headerlink" title="组合算法"></a>组合算法</h2><h3 id="Distance-Transform-距离变换"><a href="#Distance-Transform-距离变换" class="headerlink" title="Distance Transform(距离变换)"></a>Distance Transform(距离变换)</h3><p>这种操作就是用一个flat的SE，给原图作连续的腐蚀，原图上每个点的值替换为n(最后拉伸到0-255)，这个点在第n次腐蚀时消失。<br>直观感觉就是将图片中间的点变亮，周围的点变暗，此时二值图变为灰度图。  </p><h3 id="Skeleton-骨架提取"><a href="#Skeleton-骨架提取" class="headerlink" title="Skeleton(骨架提取)"></a>Skeleton(骨架提取)</h3><p>这种操作直观上是提取出原图形状的中心线，即骨架。<br>是有公式的：<br>$Result = \bigcup S_i(F)$<br>$S_i(F) = F \bigodot r_ik - {(F \bigodot r_ik)\circ r_ik}$</p><h3 id="Edge-形态学边缘"><a href="#Edge-形态学边缘" class="headerlink" title="Edge(形态学边缘)"></a>Edge(形态学边缘)</h3><p>用原图减去腐蚀后的图，或者用膨胀图减去原图，或者用膨胀图减去腐蚀图。<br>都可以得到原图物体的边缘。  </p><h3 id="Conditional-Dilation-条件膨胀"><a href="#Conditional-Dilation-条件膨胀" class="headerlink" title="Conditional Dilation(条件膨胀)"></a>Conditional Dilation(条件膨胀)</h3><p>这是一个很有意思，也很有用的算法。<br>有什么用呢？–==可以通过这个算法去分离原图中两个不相连的part。==<br>条件是只要知道一个物体的一个点在哪里。<br>然后就对这个点作连续膨胀，每次膨胀都和原图作逻辑操作中的“与“操作。<br>这样就可以保证膨胀出的内容不会超过原图的内容。<br>而当每次”与“之后稳定了，就分出了想要的part。  </p><hr><h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的算法都可以在我的GitHub里的<a href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>用法见readme文件。<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>]]></content>
     

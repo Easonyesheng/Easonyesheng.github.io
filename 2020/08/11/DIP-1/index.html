@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数字图像处理总结1 | 指北集</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>指北集</div>
+        
+            <div>二十一世纪漫游指北</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>数字图像处理总结1</h1>
+    </header>
+
+    <section>
+      <h1 id="数字图像处理总结一"><a href="#数字图像处理总结一" class="headerlink" title="数字图像处理总结一"></a>数字图像处理总结一</h1><p>图像概念 &amp; 阈值分割  </p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p>数字图像描述的是一个二元函数f(x,y)，将图像的坐标和灰度值联系起来。<br>有三种图片，但本质都是灰度图像，像素值也称为灰度值。<br>图像种类分为：<br>    二值图像 – gray level = 0 or 255/1<br>    灰度图像 – gray level in [0,255]<br>    彩色图像 – 三个通道的灰度图片<br>    伪彩图像、高维图片 – 不作详细介绍  </p>
+<h2 id="阈值分割算法"><a href="#阈值分割算法" class="headerlink" title="阈值分割算法"></a>阈值分割算法</h2><p>阈值分割就是利用图片灰度的分布规律，来分割出图片中不同的物体。<br>而每个物体在图片中的都是一个个的正态分布<br>所以阈值分割就需要找到一个阈值来分出几个正态分布<br>而要找到那个阈值，就需要引入一个概念 – 灰度直方图  </p>
+<h3 id="灰度直方图"><a href="#灰度直方图" class="headerlink" title="灰度直方图"></a>灰度直方图</h3><p>就是统计图片中的灰度分布。<br>横坐标是0～255的灰度值，纵坐标是每个灰度值在图片中的出现的个数<br>每一个物体都有在一段灰度值中的分布，可以看出图片中物体的分布<br>找到那个阈值之后，是可以将阈值之下的置为0，之上的置为最高值。<br>但每张图都有不同的阈值，所以需要一个算法，可以针对不同的图，自动找到那个可以分割出的阈值<br>即算法的普适性  </p>
+<h3 id="OTSU"><a href="#OTSU" class="headerlink" title="OTSU"></a>OTSU</h3><p>OTSU是一个可以自动找到分割阈值的算法<br>其核心思想是：<br><strong>将所有像素通过一个阈值分为前景和背景，然后用一个方差来描述两个类距离图像中心的距离的加和，这个方差最大时，两个类分得最开，对应用的阈值最优</strong><br>算法描述：<br>先得到灰度直方图<br>对0-255的每个灰度值，来计算方差<br>方差公式：<br>$$<br>\sigma^2=\omega_0 \omega_1(\mu_1-\mu_0)^2<br>$$<br>得到最大方差对应的阈值作为分割阈值  </p>
+<h3 id="Entropy"><a href="#Entropy" class="headerlink" title="Entropy"></a>Entropy</h3><p>熵分割也是一种可以自己找到分割需要的阈值的算法<br>熵描述的是信息量<br>而阈值分割问题，其实就是将图片分为前景和背景<br>如果前景信息量大的同时，背景的信息量也很大，那么就说明分割的比较好<br>所以核心思想就是：<br>$$<br>Maximum(H=H_W+H_B)<br>$$  </p>
+<p>算法描述：<br>求出灰度直方图<br>对每个像素值，计算前景背景熵之和<br>得到熵最大的那个阈值作为最终的阈值  </p>
+<p>熵:<br>$$<br>H_b=-\sum^{0 \to t}{p_i log(p_i)}<br>$$  </p>
+<p>$$<br>H_W=-\sum^{t+1 \to 255}{p_ilog(p_i)}<br>$$  </p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的两种阈值算法都可以在我的GitHub提交的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-08-11T06:01:12.000Z" itemprop="datePublished">
+              2020-08-11
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2020 - Eason Zhang </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

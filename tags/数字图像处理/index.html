@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>指北集</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>指北集</div>
+        
+            <div>二十一世纪漫游指北</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+    <header class='PageTitle'>
+        <h1>{ 数字图像处理 }</h1>
+    </header>
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/08/13/DIP4/">数字图像处理总结4</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-08-13T06:43:46.000Z" itemprop="datePublished">
+    2020-08-13
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+  </ul>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h1 id="图像处理总结4"><a href="#图像处理总结4" class="headerlink" title="图像处理总结4"></a>图像处理总结4</h1><p>灰度形态学<br>之前说过：<br><strong>形态学起源于法国巴黎高等矿业学院，因为人家是搞地质的。</strong><br><strong>可见一斑，形态学的精要就是在于将图像看作是等高线组成的地形图，他的基本操作就是动土，平高填低等等。</strong><br>之前的二值形态学针对的是二值图片，在地形上，就像是现代的建筑，拔地而起没有一定的梯度。<br>而这篇是针对灰度图片的形态学，这时的图片就更像自然界的地貌，像山川，像河谷。  </p>
+<hr>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>基本操作也是腐蚀和膨胀。<br><strong>Dilation（膨胀）：</strong><br>先看公式：$F\bigoplus k=max_{a,b\in k}{F(x-a,y-b)+k(a,b)}$<br>同样有两种算法。<br>1）平移<br>对原图先加上SE对应部分的值，再向SE对应的位置平移，然后取最大值。<br>比如，现在有一个一维的SE: [1,2,3], 中心点定为第一个点，就是“1”。<br>那么首先对应于“1”，则是原图位置不变加1.<br>对于“2”，原图灰度值加2，向右平移一位。<br>对于“3”，原图灰度值加3，向右平移两位。<br>最后将三张图重合，并在原图区域取最大值，作为结果图。<br>2）盖章<br>SE在原图上滑动，每个滑动的位置，SE与原图相加，中心点取SE范围内最大值作为结果。<br>这个程序上好实现。<br>==直观上，就是原图亮的地方会更亮（整体亮度增加），且范围扩大。==<br><strong>Erosion（腐蚀）：</strong><br>公式：$F\bigodot k=min_{a,b \in k}{F(x-a,y-b)-k(a,b)}$<br>与膨胀不同的就是与SE相减，取最小值。<br>==直观上就是，暗的地方会更暗（整体亮度减小）==<br><strong>Open（开）：</strong><br>先腐蚀后膨胀。<br>==直观上就是消除了原图上比SE小的亮处。==<br><strong>Close（闭）：</strong><br>先膨胀后腐蚀。<br>==直观上与Open相反，消除了暗处。==  </p>
+<hr>
+<h2 id="组合算法"><a href="#组合算法" class="headerlink" title="组合算法"></a>组合算法</h2><p><strong>TopHat Transform:</strong><br>高帽变换分为白色高帽变换和黑色高帽变换。<br>白色是指将灰度Close过的图和原图相减。<br>黑色是指将原图与灰度Open过的图相减。<br>总之就是留下了灰度形态学操作突出的部分。  </p>
+<p><strong>Grayscale Reconstruction:</strong><br>灰度重建分为OBR和CBR。<br>一个是针对Open后的图片重建。<br>一个是针对Close后的图片重建。<br>重建算法就是不断膨胀，但每次膨胀后与原图比较，将灰度值高于原图处的点置为原图的灰度值。<br>意思就是不能超过原图的灰度值。重复膨胀直到稳定。<br>==类似二值里面的Conditional Dilation==</p>
+<p><strong>梯度：</strong><br>灰度形态学也有梯度，和二值里面的相同。  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>包括灰度形态学基本操作（D，E，O，C），以及部分组合算法。<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>用法见readme文件。<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/08/13/DIP3/">数字图像处理总结3</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-08-13T06:42:02.000Z" itemprop="datePublished">
+    2020-08-13
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+  </ul>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h1 id="图像处理总结3"><a href="#图像处理总结3" class="headerlink" title="图像处理总结3"></a>图像处理总结3</h1><p>二值形态学<br><strong>形态学起源于法国巴黎高等矿业学院，因为人家是搞地质的。</strong><br><strong>可见一斑，形态学的精要就是在于将图像看作是等高线组成的地形图，他的基本操作就是动土，平高填低等等。</strong><br>当然，这是哲学层面的抽象概念，太玄，还是整点实际的。<br>==需要注意的是，这里处理的图片都是二值图片（0 or 1）。==  </p>
+<hr>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p><strong>结构元素（SE）</strong><br>就是你要动土的那块地方多大，以及要怎么动土。  </p>
+<p><strong>腐蚀（Erosion）：</strong><br>先看公式：$E(F,k)=F\bigodot k=\bigcap ({ a+b|a \in F})$<br>F：原图，k：SE<br>这里就有两种看法。<br>第一种，核心：<em>平移</em><br>原图按照结构元素平移，在原图大小里取交集。<br>这里要关心SE的中心在哪里，SE里有1的地方就是要平移的方向。<br>第二种，核心：<em>盖章</em><br>SE在原图上平移，只有能够完全包住SE的位置的点置1，其他置0.<br>==腐蚀能够让抹去图片上的小亮点，打断小连接，总之会让图片中亮处整体缩小。==  </p>
+<p><strong>膨胀（Dilation）：</strong><br>公式：$D(F,k)=F\bigoplus k=\bigcup ({ a-b|a\in F})$<br>同样的两种看法，平移的时候是取并集，盖章的时候是只要SE有于原图区域中重合的地方，中心点就置1。<br>==膨胀能够让图片亮处整体扩大。==  </p>
+<p><strong>开（Open）：</strong><br>先腐蚀后膨胀。<br>==可以抹去图片中size小于SE的点和连接，而不会对其他的部分造成大的破坏。==  </p>
+<p><strong>闭（Close）：</strong><br>先膨胀再腐蚀。<br>==可以填补小于SE size的空洞，弥合size小于SE的裂缝，而不会对其他的部分造成大的破坏。==  </p>
+<hr>
+<h2 id="组合算法"><a href="#组合算法" class="headerlink" title="组合算法"></a>组合算法</h2><h3 id="Distance-Transform-距离变换"><a href="#Distance-Transform-距离变换" class="headerlink" title="Distance Transform(距离变换)"></a>Distance Transform(距离变换)</h3><p>这种操作就是用一个flat的SE，给原图作连续的腐蚀，原图上每个点的值替换为n(最后拉伸到0-255)，这个点在第n次腐蚀时消失。<br>直观感觉就是将图片中间的点变亮，周围的点变暗，此时二值图变为灰度图。  </p>
+<h3 id="Skeleton-骨架提取"><a href="#Skeleton-骨架提取" class="headerlink" title="Skeleton(骨架提取)"></a>Skeleton(骨架提取)</h3><p>这种操作直观上是提取出原图形状的中心线，即骨架。<br>是有公式的：<br>$Result = \bigcup S_i(F)$<br>$S_i(F) = F \bigodot r_ik - {(F \bigodot r_ik)\circ r_ik}$</p>
+<h3 id="Edge-形态学边缘"><a href="#Edge-形态学边缘" class="headerlink" title="Edge(形态学边缘)"></a>Edge(形态学边缘)</h3><p>用原图减去腐蚀后的图，或者用膨胀图减去原图，或者用膨胀图减去腐蚀图。<br>都可以得到原图物体的边缘。  </p>
+<h3 id="Conditional-Dilation-条件膨胀"><a href="#Conditional-Dilation-条件膨胀" class="headerlink" title="Conditional Dilation(条件膨胀)"></a>Conditional Dilation(条件膨胀)</h3><p>这是一个很有意思，也很有用的算法。<br>有什么用呢？–==可以通过这个算法去分离原图中两个不相连的part。==<br>条件是只要知道一个物体的一个点在哪里。<br>然后就对这个点作连续膨胀，每次膨胀都和原图作逻辑操作中的“与“操作。<br>这样就可以保证膨胀出的内容不会超过原图的内容。<br>而当每次”与“之后稳定了，就分出了想要的part。  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>用法见readme文件。<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/08/13/DIP2/">数字图像处理总结2</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-08-13T06:41:07.000Z" itemprop="datePublished">
+    2020-08-13
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+  </ul>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h1 id="数字图像处理总结2"><a href="#数字图像处理总结2" class="headerlink" title="数字图像处理总结2"></a>数字图像处理总结2</h1><p>卷积运算和图像滤波</p>
+<hr>
+<h2 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h2><p>对图像的操纵分为点操作，代数操作，几何操作和领域操作。<br>卷积运算就是领域操作中的一个，而提到卷积，就不得不说他的姊妹correlation。<br>话不多说，先看公式：<br>convolution : $f*w=\sum_{(a,b)\in w}f(x-a,y-b)w(a,b)$<br>correlation : $f \bigotimes w=\sum _{(a,b) \in w}f(x+a,y+b)w(a,b) $<br>f是原图，k是kernel。a,b是kernel中的点坐标，默认kernel的中心坐标为（0，0）。<br>可以看出两者的区别主要是原图的坐标变换是+ or -<br>而且因为convolution是 - ，在代码中具体运算时，需要将kernel旋转$180^\circ$。<br>一句话描述卷积的过程：对一个以某点为中心，kernel大小的原图区域，对应乘上旋转过的kernel的元素并求和，结果来作为kernel中心那个像素的新的灰度值，对图中所有点作该操作，就是一个卷积。  </p>
+<hr>
+<h2 id="图像滤波"><a href="#图像滤波" class="headerlink" title="图像滤波"></a>图像滤波</h2><p>图像滤波就是用不同的kernel进行卷积操作。<br>根据kernel的不同，又分为很多目的不同的操作，如边缘检测、图像平滑等。<br>下面就举几个常见的例子：  </p>
+<hr>
+<h3 id="Edge-Detection"><a href="#Edge-Detection" class="headerlink" title="Edge Detection"></a>Edge Detection</h3><p><strong>典型算子：</strong><br>Roberts：<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 \<br>  0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  0 &amp; -1 \<br>  1 &amp; 0 \<br> \end{matrix}<br>\right |<br>$$</p>
+<p>Prewitt:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -1 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 1 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>Sobel:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -2 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 2 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -2 &amp; 0 &amp; 2 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>通过观察可以看出，这三个算子都强调不同像素间的差，其实就是离散形式的导数，所以这三个算子都是在求图片的梯度。<br>而求梯度，就是突出变化，也就是能够得到图片的中像素值变化剧烈的地方，也就是边缘。  </p>
+<hr>
+<h3 id="图像平滑"><a href="#图像平滑" class="headerlink" title="图像平滑"></a>图像平滑</h3><p><strong>典型算子：</strong><br>平均滤波：<br>$$<br>\left [<br> \begin{matrix}<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br> \end{matrix}<br>\right ]<br>$$<br>中值滤波：<br>这个算子不是寻常的计算算子，而是将3x3范围内的中值作为中心的灰度值。<br>是一种统计学算子。<br>Gaussian:<br>$G(x,y)={1/{2\pi \sigma^2}} \times e^{-{x^2+y^2}/{2\sigma^2}}$<br>这个式子指的是高斯滤波器对应位置的值，其中一个关键元素是$\sigma$，是方差，在滤波时一般自己选定，他决定了高斯分布的峰高和宽（越大越矮、宽）  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>实现时主要是依赖于opencv的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.filter2D(img,<span class="number">-1</span>,filter)</span><br></pre></td></tr></table></figure>
+
+<p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/08/11/DIP-1/">数字图像处理总结1</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-08-11T06:01:12.000Z" itemprop="datePublished">
+    2020-08-11
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+  </ul>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h1 id="数字图像处理总结一"><a href="#数字图像处理总结一" class="headerlink" title="数字图像处理总结一"></a>数字图像处理总结一</h1><p>图像概念 &amp; 阈值分割  </p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p>数字图像描述的是一个二元函数f(x,y)，将图像的坐标和灰度值联系起来。<br>有三种图片，但本质都是灰度图像，像素值也称为灰度值。<br>图像种类分为：<br>    二值图像 – gray level = 0 or 255/1<br>    灰度图像 – gray level in [0,255]<br>    彩色图像 – 三个通道的灰度图片<br>    伪彩图像、高维图片 – 不作详细介绍  </p>
+<h2 id="阈值分割算法"><a href="#阈值分割算法" class="headerlink" title="阈值分割算法"></a>阈值分割算法</h2><p>阈值分割就是利用图片灰度的分布规律，来分割出图片中不同的物体。<br>而每个物体在图片中的都是一个个的正态分布<br>所以阈值分割就需要找到一个阈值来分出几个正态分布<br>而要找到那个阈值，就需要引入一个概念 – 灰度直方图  </p>
+<h3 id="灰度直方图"><a href="#灰度直方图" class="headerlink" title="灰度直方图"></a>灰度直方图</h3><p>就是统计图片中的灰度分布。<br>横坐标是0～255的灰度值，纵坐标是每个灰度值在图片中的出现的个数<br>每一个物体都有在一段灰度值中的分布，可以看出图片中物体的分布<br>找到那个阈值之后，是可以将阈值之下的置为0，之上的置为最高值。<br>但每张图都有不同的阈值，所以需要一个算法，可以针对不同的图，自动找到那个可以分割出的阈值<br>即算法的普适性  </p>
+<h3 id="OTSU"><a href="#OTSU" class="headerlink" title="OTSU"></a>OTSU</h3><p>OTSU是一个可以自动找到分割阈值的算法<br>其核心思想是：<br><strong>将所有像素通过一个阈值分为前景和背景，然后用一个方差来描述两个类距离图像中心的距离的加和，这个方差最大时，两个类分得最开，对应用的阈值最优</strong><br>算法描述：<br>先得到灰度直方图<br>对0-255的每个灰度值，来计算方差<br>方差公式：<br>$$<br>\sigma^2=\omega_0 \omega_1(\mu_1-\mu_0)^2<br>$$<br>得到最大方差对应的阈值作为分割阈值  </p>
+<h3 id="Entropy"><a href="#Entropy" class="headerlink" title="Entropy"></a>Entropy</h3><p>熵分割也是一种可以自己找到分割需要的阈值的算法<br>熵描述的是信息量<br>而阈值分割问题，其实就是将图片分为前景和背景<br>如果前景信息量大的同时，背景的信息量也很大，那么就说明分割的比较好<br>所以核心思想就是：<br>$$<br>Maximum(H=H_W+H_B)<br>$$  </p>
+<p>算法描述：<br>求出灰度直方图<br>对每个像素值，计算前景背景熵之和<br>得到熵最大的那个阈值作为最终的阈值  </p>
+<p>熵:<br>$$<br>H_b=-\sum^{0 \to t}{p_i log(p_i)}<br>$$  </p>
+<p>$$<br>H_W=-\sum^{t+1 \to 255}{p_ilog(p_i)}<br>$$  </p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的两种阈值算法都可以在我的GitHub提交的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+
+
+            <footer>
+    <div>© 2020 - Eason Zhang </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

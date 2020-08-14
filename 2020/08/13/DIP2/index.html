@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数字图像处理总结2 | 指北集</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>指北集</div>
+        
+            <div>二十一世纪漫游指北</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>数字图像处理总结2</h1>
+    </header>
+
+    <section>
+      <h1 id="数字图像处理总结2"><a href="#数字图像处理总结2" class="headerlink" title="数字图像处理总结2"></a>数字图像处理总结2</h1><p>卷积运算和图像滤波</p>
+<hr>
+<h2 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h2><p>对图像的操纵分为点操作，代数操作，几何操作和领域操作。<br>卷积运算就是领域操作中的一个，而提到卷积，就不得不说他的姊妹correlation。<br>话不多说，先看公式：<br>convolution : $f*w=\sum_{(a,b)\in w}f(x-a,y-b)w(a,b)$<br>correlation : $f \bigotimes w=\sum _{(a,b) \in w}f(x+a,y+b)w(a,b) $<br>f是原图，k是kernel。a,b是kernel中的点坐标，默认kernel的中心坐标为（0，0）。<br>可以看出两者的区别主要是原图的坐标变换是+ or -<br>而且因为convolution是 - ，在代码中具体运算时，需要将kernel旋转$180^\circ$。<br>一句话描述卷积的过程：对一个以某点为中心，kernel大小的原图区域，对应乘上旋转过的kernel的元素并求和，结果来作为kernel中心那个像素的新的灰度值，对图中所有点作该操作，就是一个卷积。  </p>
+<hr>
+<h2 id="图像滤波"><a href="#图像滤波" class="headerlink" title="图像滤波"></a>图像滤波</h2><p>图像滤波就是用不同的kernel进行卷积操作。<br>根据kernel的不同，又分为很多目的不同的操作，如边缘检测、图像平滑等。<br>下面就举几个常见的例子：  </p>
+<hr>
+<h3 id="Edge-Detection"><a href="#Edge-Detection" class="headerlink" title="Edge Detection"></a>Edge Detection</h3><p><strong>典型算子：</strong><br>Roberts：<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 \<br>  0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  0 &amp; -1 \<br>  1 &amp; 0 \<br> \end{matrix}<br>\right |<br>$$</p>
+<p>Prewitt:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -1 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 1 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>Sobel:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -2 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 2 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -2 &amp; 0 &amp; 2 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>通过观察可以看出，这三个算子都强调不同像素间的差，其实就是离散形式的导数，所以这三个算子都是在求图片的梯度。<br>而求梯度，就是突出变化，也就是能够得到图片的中像素值变化剧烈的地方，也就是边缘。  </p>
+<hr>
+<h3 id="图像平滑"><a href="#图像平滑" class="headerlink" title="图像平滑"></a>图像平滑</h3><p><strong>典型算子：</strong><br>平均滤波：<br>$$<br>\left [<br> \begin{matrix}<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br> \end{matrix}<br>\right ]<br>$$<br>中值滤波：<br>这个算子不是寻常的计算算子，而是将3x3范围内的中值作为中心的灰度值。<br>是一种统计学算子。<br>Gaussian:<br>$G(x,y)={1/{2\pi \sigma^2}} \times e^{-{x^2+y^2}/{2\sigma^2}}$<br>这个式子指的是高斯滤波器对应位置的值，其中一个关键元素是$\sigma$，是方差，在滤波时一般自己选定，他决定了高斯分布的峰高和宽（越大越矮、宽）  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>实现时主要是依赖于opencv的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.filter2D(img,<span class="number">-1</span>,filter)</span><br></pre></td></tr></table></figure>
+
+<p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-08-13T06:41:07.000Z" itemprop="datePublished">
+              2020-08-13
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2020 - Eason Zhang </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

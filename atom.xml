@@ -3,11 +3,11 @@
   <title>指北集</title>
   
   <subtitle>二十一世纪漫游指北</subtitle>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://northpointer.xyz/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://northpointer.xyz/"/>
   <updated>2020-08-13T08:20:38.836Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://northpointer.xyz/</id>
   
   <author>
     <name>Eason Zhang</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Python实现的双目相机自标定系统</title>
-    <link href="http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://yoursite.com/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://northpointer.xyz/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://northpointer.xyz/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-08-13T07:48:08.000Z</published>
     <updated>2020-08-13T08:20:38.836Z</updated>
     
@@ -31,14 +31,14 @@
     
     
     
-    <category term="双目视觉" scheme="http://yoursite.com/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/"/>
+    <category term="双目视觉" scheme="http://northpointer.xyz/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/"/>
     
   </entry>
   
   <entry>
     <title>数字图像处理总结4</title>
-    <link href="http://yoursite.com/2020/08/13/DIP4/"/>
-    <id>http://yoursite.com/2020/08/13/DIP4/</id>
+    <link href="http://northpointer.xyz/2020/08/13/DIP4/"/>
+    <id>http://northpointer.xyz/2020/08/13/DIP4/</id>
     <published>2020-08-13T06:43:46.000Z</published>
     <updated>2020-08-13T06:51:45.563Z</updated>
     
@@ -50,14 +50,14 @@
     
     
     
-    <category term="数字图像处理" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    <category term="数字图像处理" scheme="http://northpointer.xyz/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>数字图像处理总结3</title>
-    <link href="http://yoursite.com/2020/08/13/DIP3/"/>
-    <id>http://yoursite.com/2020/08/13/DIP3/</id>
+    <link href="http://northpointer.xyz/2020/08/13/DIP3/"/>
+    <id>http://northpointer.xyz/2020/08/13/DIP3/</id>
     <published>2020-08-13T06:42:02.000Z</published>
     <updated>2020-08-13T06:51:32.301Z</updated>
     
@@ -69,14 +69,14 @@
     
     
     
-    <category term="数字图像处理" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    <category term="数字图像处理" scheme="http://northpointer.xyz/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>数字图像处理总结2</title>
-    <link href="http://yoursite.com/2020/08/13/DIP2/"/>
-    <id>http://yoursite.com/2020/08/13/DIP2/</id>
+    <link href="http://northpointer.xyz/2020/08/13/DIP2/"/>
+    <id>http://northpointer.xyz/2020/08/13/DIP2/</id>
     <published>2020-08-13T06:41:07.000Z</published>
     <updated>2020-08-13T06:44:33.598Z</updated>
     
@@ -88,14 +88,14 @@
     
     
     
-    <category term="数字图像处理" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    <category term="数字图像处理" scheme="http://northpointer.xyz/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>数字图像处理总结1</title>
-    <link href="http://yoursite.com/2020/08/11/DIP-1/"/>
-    <id>http://yoursite.com/2020/08/11/DIP-1/</id>
+    <link href="http://northpointer.xyz/2020/08/11/DIP-1/"/>
+    <id>http://northpointer.xyz/2020/08/11/DIP-1/</id>
     <published>2020-08-11T06:01:12.000Z</published>
     <updated>2020-08-13T06:43:26.202Z</updated>
     
@@ -107,7 +107,7 @@
     
     
     
-    <category term="数字图像处理" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    <category term="数字图像处理" scheme="http://northpointer.xyz/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
   </entry>
   

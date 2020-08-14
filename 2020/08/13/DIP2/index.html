@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数字图像处理总结2 - 指北集</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+
+  
+  
+  <meta name="description" content="数字图像处理总结2卷积运算和图像滤波
+
+卷积运算对图像..."> 
+  
+  <meta name="author" content="Eason Zhang"> 
+
+  
+    <link rel="icon" href="http://easonzhangyesheng.gitee.io/imgnorthpointer/icon.ico" type="image/png" sizes="16x16">
+  
+  
+    <link rel="icon" href="http://easonzhangyesheng.gitee.io/imgnorthpointer/icon.ico" type="image/png" sizes="32x32">
+  
+  
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  
+  
+    <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_0sri83bhiv7.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css">
+
+  
+
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        loadingImage: '/images/theme/loading.gif',
+      },
+      donate_alipay: '',
+      donate_wechat: '',
+      motto: {
+        api: '',
+        default: '21世纪漫游指北。'
+      },
+      galleries: {
+        enable: 'false'
+      },
+      fab: {
+        enable: 'true',
+        alwaysShow: 'false'
+      },
+      carrier: {
+        enable: 'true'
+      },
+      daovoice: {
+        enable: 'true'
+      }
+    }
+  </script>
+
+  
+
+  
+<meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+</head>
+<body class="lock-screen">
+  <div class="loading"></div>
+  <nav class="menu">
+  <div class="menu-close">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <ul class="menu-content">
+    
+    
+    
+    
+    <li class="menu-item"><a href="/ "> 首页</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/archives "> 归档</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/tags "> 标签</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/categories "> 分类</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/about "> 关于</a></li>
+    
+  </ul>
+  <div class="menu-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://northpointer.xyz">zhaoo</a> .AllRightsReserved</p></div>
+</nav>
+  <main id="main">
+  <div class="container" id="container">
+    <article class="article">
+  <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">数字图像处理总结2</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-08-13</span
+        class="post-info-item">
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1756</span>
+    </div>
+  </div>
+</section>
+  <section class="main">
+    <section class="content">
+      <h1 id="数字图像处理总结2"><a href="#数字图像处理总结2" class="headerlink" title="数字图像处理总结2"></a>数字图像处理总结2</h1><p>卷积运算和图像滤波</p>
+<hr>
+<h2 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h2><p>对图像的操纵分为点操作，代数操作，几何操作和领域操作。<br>卷积运算就是领域操作中的一个，而提到卷积，就不得不说他的姊妹correlation。<br>话不多说，先看公式：<br>convolution : $f*w=\sum_{(a,b)\in w}f(x-a,y-b)w(a,b)$<br>correlation : $f \bigotimes w=\sum _{(a,b) \in w}f(x+a,y+b)w(a,b) $<br>f是原图，k是kernel。a,b是kernel中的点坐标，默认kernel的中心坐标为（0，0）。<br>可以看出两者的区别主要是原图的坐标变换是+ or -<br>而且因为convolution是 - ，在代码中具体运算时，需要将kernel旋转$180^\circ$。<br>一句话描述卷积的过程：对一个以某点为中心，kernel大小的原图区域，对应乘上旋转过的kernel的元素并求和，结果来作为kernel中心那个像素的新的灰度值，对图中所有点作该操作，就是一个卷积。  </p>
+<hr>
+<h2 id="图像滤波"><a href="#图像滤波" class="headerlink" title="图像滤波"></a>图像滤波</h2><p>图像滤波就是用不同的kernel进行卷积操作。<br>根据kernel的不同，又分为很多目的不同的操作，如边缘检测、图像平滑等。<br>下面就举几个常见的例子：  </p>
+<hr>
+<h3 id="Edge-Detection"><a href="#Edge-Detection" class="headerlink" title="Edge Detection"></a>Edge Detection</h3><p><strong>典型算子：</strong><br>Roberts：<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 \<br>  0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  0 &amp; -1 \<br>  1 &amp; 0 \<br> \end{matrix}<br>\right |<br>$$</p>
+<p>Prewitt:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -1 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 1 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>Sobel:<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; -2 &amp; -1 \<br>  0 &amp; 0 &amp; 0 \<br>  1 &amp; 2 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>$$<br>\left |<br> \begin{matrix}<br>  -1 &amp; 0 &amp; 1 \<br>  -2 &amp; 0 &amp; 2 \<br>  -1 &amp; 0 &amp; 1 \<br> \end{matrix}<br>\right |<br>$$<br>通过观察可以看出，这三个算子都强调不同像素间的差，其实就是离散形式的导数，所以这三个算子都是在求图片的梯度。<br>而求梯度，就是突出变化，也就是能够得到图片的中像素值变化剧烈的地方，也就是边缘。  </p>
+<hr>
+<h3 id="图像平滑"><a href="#图像平滑" class="headerlink" title="图像平滑"></a>图像平滑</h3><p><strong>典型算子：</strong><br>平均滤波：<br>$$<br>\left [<br> \begin{matrix}<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br>  1/9 &amp; 1/9 &amp; 1/9 \<br> \end{matrix}<br>\right ]<br>$$<br>中值滤波：<br>这个算子不是寻常的计算算子，而是将3x3范围内的中值作为中心的灰度值。<br>是一种统计学算子。<br>Gaussian:<br>$G(x,y)={1/{2\pi \sigma^2}} \times e^{-{x^2+y^2}/{2\sigma^2}}$<br>这个式子指的是高斯滤波器对应位置的值，其中一个关键元素是$\sigma$，是方差，在滤波时一般自己选定，他决定了高斯分布的峰高和宽（越大越矮、宽）  </p>
+<hr>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>实现时主要是依赖于opencv的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.filter2D(img,<span class="number">-1</span>,filter)</span><br></pre></td></tr></table></figure>
+
+<p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+
+    </section>
+    <section class="extra">
+      
+        <ul class="copyright">
+  
+  <li><strong>本文作者：</strong>Eason Zhang</li>
+  <li><strong>本文链接：</strong><a href="http://northpointer.xyz/2020/08/13/DIP2/index.html">http://northpointer.xyz/2020/08/13/DIP2/index.html</a></li>
+  <li><strong>版权声明：</strong>本博客所有文章均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"
+      rel="external nofollow" target="_blank"> BY-NC-SA </a>许可协议，转载请注明出处！</li>
+  
+</ul>
+      
+      
+      
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">数字图像处理</a></li></ul>
+
+      
+<nav class="nav">
+  
+    <a href="/2020/08/13/DIP3/"><i class="iconfont iconleft"></i>数字图像处理总结3</a>
+  
+  
+    <a href="/2020/08/11/DIP-1/">数字图像处理总结1<i class="iconfont iconright"></i></a>
+  
+</nav>
+
+    </section>
+    
+  </section>
+</article>
+  </div>
+</main>
+  <footer class="footer">
+  <div class="footer-social">
+    
+    
+    
+    
+    
+    <a href="https://github.com/Easonyesheng " target="_blank" onMouseOver="this.style.color= '#24292E'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  icongithub-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="mailto:preacher@sjtu.edu.cn " target="_blank" onMouseOver="this.style.color='#FFBE5B'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconmail"></i>
+    </a>
+    
+  </div>
+  <div class="footer-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://northpointer.xyz">zhaoo</a> .AllRightsReserved</p></div>
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  <div class="fab fab-daovoice">
+    <i class="iconfont iconcomment"></i>
+  </div>
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  <div class="fab fab-menu">
+    <i class="iconfont iconmenu"></i>
+  </div>
+  
+</body>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/zui.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+<script defer>
+  (function (i, s, o, g, r, a, m) {
+    i["DaoVoiceObject"] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    a.charset = "utf-8";
+    m.parentNode.insertBefore(a, m)
+  })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+    "//widget.daovoice.io/widget/0f81ff2f.js", "daovoice")
+  daovoice('init', {
+    app_id: "abcdefg"
+  }, {
+    launcher: {
+      disableLauncherIcon: true,
+    },
+  });
+  daovoice('update');
+</script>
+
+
+
+<script defer>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>

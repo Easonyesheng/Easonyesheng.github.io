@@ -6,7 +6,7 @@
   <link href="http://northpointer.xyz/atom.xml" rel="self"/>
   
   <link href="http://northpointer.xyz/"/>
-  <updated>2020-08-17T08:05:42.831Z</updated>
+  <updated>2020-08-19T06:58:58.849Z</updated>
   <id>http://northpointer.xyz/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YOLO 系列论文阅读笔记</title>
+    <link href="http://northpointer.xyz/2020/08/19/Yolo-note/"/>
+    <id>http://northpointer.xyz/2020/08/19/Yolo-note/</id>
+    <published>2020-08-19T06:58:27.000Z</published>
+    <updated>2020-08-19T06:58:58.849Z</updated>
+    
+    
+    
+    
+    
+    <category term="论文笔记" scheme="http://northpointer.xyz/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Python实现的双目相机自标定系统</title>

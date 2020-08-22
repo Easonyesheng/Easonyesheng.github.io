@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0Vhc29ueWVzaGVuZy9NYXJrZG93blBpY3R1cmVzL21hc3Rlci9SZWN0VW5jYWxpYkxlZnQuanBn?x-oss-process=image/format,png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200205151838386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjczMDk5Nw==,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-08-13T07:48:08.000Z">
-<meta property="article:modified_time" content="2020-08-19T07:23:25.880Z">
+<meta property="article:modified_time" content="2020-08-19T12:28:14.898Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-19 15:23:25" itemprop="dateModified" datetime="2020-08-19T15:23:25+08:00">2020-08-19</time>
+                <time title="修改时间：2020-08-19 20:28:14" itemprop="dateModified" datetime="2020-08-19T20:28:14+08:00">2020-08-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
 <h2 id="图片校正"><a href="#图片校正" class="headerlink" title="图片校正"></a>图片校正</h2><p>这里我提供了两种校正的算法。<br>一种是要用到之前的相机参数实现的校正，依赖于cv2.stereoRectify()<br>都是固有流程，原理见<em>Multiple View Geometry in computer vision</em><br>代码如下：  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RectifyImg</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Rectify images using cv2.stereoRectify()</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.FE.all()</span><br><span class="line">    <span class="keyword">except</span> AttributeError:</span><br><span class="line">        self.EstimateFM() <span class="comment"># Using traditional method as default</span></span><br><span class="line"></span><br><span class="line">    self._Get_Essential_Matrix()</span><br><span class="line">    self._Get_R_T()</span><br><span class="line"></span><br><span class="line">    R = self.Rt2[:, :<span class="number">3</span>]</span><br><span class="line">    T = self.Rt2[:, <span class="number">3</span>]</span><br><span class="line">    <span class="comment">#perform the rectification</span></span><br><span class="line">    R1, R2, P1, P2, Q, roi1, roi2 = cv2.stereoRectify(self.Kl, self.dl,</span><br><span class="line">                                                        self.Kr, self.dr,</span><br><span class="line">                                                        self.imgl.shape[:<span class="number">2</span>],</span><br><span class="line">                                                        R, T, alpha=<span class="number">0</span>)</span><br><span class="line">    mapx1, mapy1 = cv2.initUndistortRectifyMap(self.Kl, self.dl, R1, P1,</span><br><span class="line">                                                [self.imgl.shape[<span class="number">0</span>],self.imgl.shape[<span class="number">1</span>]],</span><br><span class="line">                                                cv2.CV_32FC1)</span><br><span class="line">    mapx2, mapy2 = cv2.initUndistortRectifyMap(self.Kr, self.dr, R2, P2,</span><br><span class="line">                                                [self.imgl.shape[<span class="number">0</span>],self.imgl.shape[<span class="number">1</span>]],</span><br><span class="line">                                                cv2.CV_32FC1)</span><br><span class="line">    img_rect1 = cv2.remap(self.imgl, mapx1, mapy1, cv2.INTER_LINEAR)</span><br><span class="line">    img_rect2 = cv2.remap(self.imgr, mapx2, mapy2, cv2.INTER_LINEAR)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># save</span></span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;RectedLeft.jpg&quot;</span>),img_rect1)</span><br><span class="line">    cv2.imwrite(os.path.join(self.SavePath,<span class="string">&quot;RectedRight.jpg&quot;</span>),img_rect2)</span><br></pre></td></tr></table></figure>
 
-<p>另外一种是不需要相机内参的校正算法，依赖于cv2.stereoRectifyUncalibrated()<br>代码如下：  </p>
+<p>另外一种是不需要相机内参的校正算法，依赖于cv2.stereoRectifyUncalibrated()，最后得到的是对应于两张图片的单应变换矩阵H1，H2。<br>接着使用cv2.remap函数就可以实现图片的校正。<br>代码如下：  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">returnH1_H2</span>(<span class="params">points1,points2,F,size</span>):</span></span><br><span class="line">    p1=points1.reshape(len(points1)*<span class="number">2</span>,<span class="number">1</span>)<span class="comment">#stackoverflow上需要将(m,2)的点变为(m*2,1),因为不变在c++中会产生内存溢出</span></span><br><span class="line">    p2=points2.reshape(len(points2)*<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">    _,H1,H2=cv2.stereoRectifyUncalibrated(p1,p2,F,size) <span class="comment">#size是宽，高</span></span><br><span class="line">    <span class="keyword">return</span> H1,H2</span><br></pre></td></tr></table></figure>
 
 <hr>
@@ -323,8 +323,8 @@
       <i class="fa fa-chevron-left"></i> 数字图像处理总结4
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/08/19/Yolo-note/" rel="next" title="YOLO 系列论文阅读笔记">
-      YOLO 系列论文阅读笔记 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/08/19/Yolo-note/" rel="next" title="YOLO V1 论文阅读笔记">
+      YOLO V1 论文阅读笔记 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

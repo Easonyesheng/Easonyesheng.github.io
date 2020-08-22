@@ -22,16 +22,22 @@
 
   <meta name="description" content="You only look once。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="YOLO 系列论文阅读笔记">
+<meta property="og:title" content="YOLO V1 论文阅读笔记">
 <meta property="og:url" content="http://northpointer.xyz/2020/08/19/Yolo-note/index.html">
 <meta property="og:site_name" content="指北集">
 <meta property="og:description" content="You only look once。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdn.net/20180130221048856?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb2h1MjAyMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/sunshine.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190321161321184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjMyNTk4,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/YOLOV1_Loss.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190321203016680.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjMyNTk4,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-08-19T06:58:27.000Z">
-<meta property="article:modified_time" content="2020-08-19T07:29:14.965Z">
+<meta property="article:modified_time" content="2020-08-22T03:45:23.220Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="论文笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180130221048856?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb2h1MjAyMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 <link rel="canonical" href="http://northpointer.xyz/2020/08/19/Yolo-note/">
 
@@ -46,7 +52,7 @@
   };
 </script>
 
-  <title>YOLO 系列论文阅读笔记 | 指北集</title>
+  <title>YOLO V1 论文阅读笔记 | 指北集</title>
   
 
 
@@ -181,25 +187,27 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          YOLO 系列论文阅读笔记
+          YOLO V1 论文阅读笔记
         </h1>
 
         <div class="post-meta">
         
-          
-            <i class="fa fa-thumb-tack"></i>
-            <font color=7D26CD>置顶</font>
-            <span class="post-meta-divider">|</span>
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-19 14:58:27 / 修改时间：15:29:14" itemprop="dateCreated datePublished" datetime="2020-08-19T14:58:27+08:00">2020-08-19</time>
+              <time title="创建时间：2020-08-19 14:58:27" itemprop="dateCreated datePublished" datetime="2020-08-19T14:58:27+08:00">2020-08-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-22 11:45:23" itemprop="dateModified" datetime="2020-08-22T11:45:23+08:00">2020-08-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -222,7 +230,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="YOLO-V1"><a href="#YOLO-V1" class="headerlink" title="YOLO V1"></a>YOLO V1</h1><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>YOLO是You Only Look Once的简称，和人眼识别物体一样，看一眼就能识别出来，YOLO力求实现端到端的目标检测，只用一个简单的神经网络结构，从单张图片就可以输出图中目标的位置和目标的种类，而且因为其没有其他检测网络的复杂结构（说的就是你，Faster RCNN），所以其检测速度很快，可以实现实时的目标检测。<br><img src="https://img-blog.csdn.net/20180130221048856?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb2h1MjAyMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="YOLO结构"></p>
+<hr>
+<h2 id="YOLO诞生之前-–-无火的时代"><a href="#YOLO诞生之前-–-无火的时代" class="headerlink" title="YOLO诞生之前 – 无火的时代"></a>YOLO诞生之前 – 无火的时代</h2><p><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/sunshine.png" alt="赞美太阳"></p>
+<center>Long May The Sunshine.</center>  
+在YOLO之前，目标检测的方法是从图像分类衍化而来，毕竟检测的第一步确实是将图片中的目标弄出来，而弄出来靠的就是先分类再定位，最后再对分出来的目标进行识别。  
+比较经典的是RCNN，利用区域推荐去估计目标位置（bonding box），再用卷积网络提取特征，作为后续SVM分类bonding box的依据，最后用线性模型调整box的位置，非极大值抑制（NMS）来去除重复的框。
+基于RCNN，还有提升了速度的Fast & Faster RCNN，所做的改进在于减少了重复计算以及将区域推荐也用网络来实现。  
+像RCNN这种具有复杂pipeline的目标检测方法自然是耗时冗长而无法用于实时检测的，尽管其精度很高，却也因此无法大规模用于实际场景。  
+
+<hr>
+<h2 id="YOLO的诞生-–-传火的钟声响起"><a href="#YOLO的诞生-–-传火的钟声响起" class="headerlink" title="YOLO的诞生 – 传火的钟声响起"></a>YOLO的诞生 – 传火的钟声响起</h2><p>YOLO的目标很明确–实现实时的目标检测。而为了速度，就必须舍弃无效的动作，一击制敌。所以YOLO将目标检测做成了回归的形式，输入是图片，输出就是图片中目标的位置、种类，这么复杂的任务似乎也需要同样复杂的网络，但是YOLO只用了卷积层和全连接层，实现了天下武功，唯快不破。  </p>
+<p><strong>而背后的原因是什么呢？众所周知，神经网络可以在问题和答案之间探索最佳的拟合方式，从而实现问题到答案的完美映射，取代了以往人工的算法设计；而使用神经网络的人呢，需要钻研的，就是问题的提问方式和答案的表示方式，以确保问题与答案相对的解空间中存在合理的拟合（人为定义的合理），以及探索如何指导神经网络朝正确的方向拟合过去和拟合的好坏（损失函数的设计）。</strong>  </p>
+<p>那么对于YOLO来说，他的问题（输入）是一张图片，答案则是一个$(S \times S \times (5 \times B + C))$的张量。为什么这么设计答案？其合理性在于将原图分为S*S个小块，每个块内都有B个（论文中是2个，互相垂直）预测框（bonding box）的同一中心，每个框有5个参数$(x,y,w,h,confi)$，x，y是框的中心相对于小块中心的偏移，w，h是框的边长，congfi则是这个框预测结果的置信度，即预测框与真值框的IOU。同时对应于C个种类有C个预测值，如果一个目标的中心落在某个小块内，则这个块的框就负责该目标的预测。这些就构成了答案的维度。如下图所示。<br><img src="https://img-blog.csdnimg.cn/20190321161321184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjMyNTk4,size_16,color_FFFFFF,t_70" alt="YOLO示意图"><br><em>图片来自<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38232598/article/details/88695454?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">传送门</a></em><br>如此定义，从问题到解空间就存在合理的映射，而如何指导网络学习这种映射，就涉及到损失函数的设计。<br>YOLO的损失函数采用的是平方和的形式，答案张量中的每一个部分都在损失函数中有所对应。如下图：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/YOLOV1_Loss.png" alt="loss"><br>loss的每个部分的对应如下：<br><img src="https://img-blog.csdnimg.cn/20190321203016680.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjMyNTk4,size_16,color_FFFFFF,t_70" alt="loss_explain"><br><em>图片来自<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38232598/article/details/88695454?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">传送门</a></em><br>loss的第一部分是预测框的中心和大小，第二部分是bonding box的IOU，第三部分是分类误差。值得注意的是该loss虽然是所有块loss的总和，但是因为0-1系数的存在，只有当块负责某个目标时，才会有类别loss，只有当bbox对应于真值框时，才会有位置loss，这里的对应指的是bbox与真值的IOU最大。<br>为了平衡loss的各个部分，作者还加入了多个权重。比如让位置loss和类别loss同等重要是不合理的，毕竟是位置要优先于类别判断，所以在位置loss前增加了权重调节（论文中为5）。对于不存在目标的bbox的IOU loss，我们希望它的IOU越小越好，但因为大多数块都没有目标，所以在前面加入一个缩小权重的系数（论文中为0.5）。<br>而对于大小目标的检测来说，小目标检测出现的位置偏移误差更为难以忍受，所以在计算的时候，作者对于框的大小(w,h)开了方，因为在w，h越小的时候，相同的$\delta w, \delta h$，$\sqrt w, \sqrt h$展现的loss更大，这点很巧妙。  </p>
+<hr>
+<h2 id="YOLO的缺陷-–-阿克琉斯之踵"><a href="#YOLO的缺陷-–-阿克琉斯之踵" class="headerlink" title="YOLO的缺陷 – 阿克琉斯之踵"></a>YOLO的缺陷 – 阿克琉斯之踵</h2><p>YOLO V1因为机制的原因，存在的缺陷也很好理解。  </p>
+<ul>
+<li>无法检测大片的，靠近的目标，如鸟群。  </li>
+<li>尽管用了平方根的方法，大小目标检测在loss中的差异不明显，导致位置预测仍是主要误差来源。  </li>
+<li>输入是固定的，且因为下采样导致特征不精确。  </li>
+</ul>
+<hr>
+<p>更多YOLO的实现细节，可以移步<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38232598/article/details/88695454?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">传送门</a>  </p>
+
     </div>
 
     
@@ -321,6 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLO-V1"><span class="nav-number">1.</span> <span class="nav-text">YOLO V1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO%E8%AF%9E%E7%94%9F%E4%B9%8B%E5%89%8D-%E2%80%93-%E6%97%A0%E7%81%AB%E7%9A%84%E6%97%B6%E4%BB%A3"><span class="nav-number">1.2.</span> <span class="nav-text">YOLO诞生之前 – 无火的时代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO%E7%9A%84%E8%AF%9E%E7%94%9F-%E2%80%93-%E4%BC%A0%E7%81%AB%E7%9A%84%E9%92%9F%E5%A3%B0%E5%93%8D%E8%B5%B7"><span class="nav-number">1.3.</span> <span class="nav-text">YOLO的诞生 – 传火的钟声响起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO%E7%9A%84%E7%BC%BA%E9%99%B7-%E2%80%93-%E9%98%BF%E5%85%8B%E7%90%89%E6%96%AF%E4%B9%8B%E8%B8%B5"><span class="nav-number">1.4.</span> <span class="nav-text">YOLO的缺陷 – 阿克琉斯之踵</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

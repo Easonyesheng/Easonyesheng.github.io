@@ -20,20 +20,25 @@
     var CONFIG = {"hostname":"northpointer.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="灰度形态学。">
+  <meta name="description" content="A milestone towards end-to-end deep SLAM.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数字图像处理总结4">
-<meta property="og:url" content="http://northpointer.xyz/2020/08/13/DIP4/index.html">
+<meta property="og:title" content="SuperGlue">
+<meta property="og:url" content="http://northpointer.xyz/2020/09/07/SuperGlue/index.html">
 <meta property="og:site_name" content="指北集">
-<meta property="og:description" content="灰度形态学。">
+<meta property="og:description" content="A milestone towards end-to-end deep SLAM.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-13T06:43:46.000Z">
-<meta property="article:modified_time" content="2020-08-19T11:53:31.461Z">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_archi.png">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp1.png">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp2.png">
+<meta property="article:published_time" content="2020-09-07T07:26:22.000Z">
+<meta property="article:modified_time" content="2020-09-13T06:45:39.305Z">
 <meta property="article:author" content="Eason Zhang">
-<meta property="article:tag" content="数字图像处理">
+<meta property="article:tag" content="论文笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png">
 
-<link rel="canonical" href="http://northpointer.xyz/2020/08/13/DIP4/">
+<link rel="canonical" href="http://northpointer.xyz/2020/09/07/SuperGlue/">
 
 
 <script id="page-configurations">
@@ -46,7 +51,7 @@
   };
 </script>
 
-  <title>数字图像处理总结4 | 指北集</title>
+  <title>SuperGlue | 指北集</title>
   
 
 
@@ -168,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2020/08/13/DIP4/">
+    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2020/09/07/SuperGlue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -181,7 +186,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          数字图像处理总结4
+          SuperGlue
         </h1>
 
         <div class="post-meta">
@@ -193,14 +198,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-08-13 14:43:46" itemprop="dateCreated datePublished" datetime="2020-08-13T14:43:46+08:00">2020-08-13</time>
+              <time title="创建时间：2020-09-07 15:26:22" itemprop="dateCreated datePublished" datetime="2020-09-07T15:26:22+08:00">2020-09-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-19 19:53:31" itemprop="dateModified" datetime="2020-08-19T19:53:31+08:00">2020-08-19</time>
+                <time title="修改时间：2020-09-13 14:45:39" itemprop="dateModified" datetime="2020-09-13T14:45:39+08:00">2020-09-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,7 +218,7 @@
             </span>
 
           
-            <div class="post-description">灰度形态学。</div>
+            <div class="post-description">A milestone towards end-to-end deep SLAM.</div>
 
         </div>
       </header>
@@ -224,15 +229,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="图像处理总结4"><a href="#图像处理总结4" class="headerlink" title="图像处理总结4"></a>图像处理总结4</h1><p>灰度形态学<br>之前说过：<br><strong>形态学起源于法国巴黎高等矿业学院，因为人家是搞地质的。</strong><br><strong>可见一斑，形态学的精要就是在于将图像看作是等高线组成的地形图，他的基本操作就是动土，平高填低等等。</strong><br>之前的二值形态学针对的是二值图片，在地形上，就像是现代的建筑，拔地而起没有一定的梯度。<br>而这篇是针对灰度图片的形态学，这时的图片就更像自然界的地貌，像山川，像河谷。  </p>
+        <h1 id="SuperGlue-基于图神经网络和注意力机制的特征点匹配网络"><a href="#SuperGlue-基于图神经网络和注意力机制的特征点匹配网络" class="headerlink" title="SuperGlue: 基于图神经网络和注意力机制的特征点匹配网络"></a>SuperGlue: 基于图神经网络和注意力机制的特征点匹配网络</h1><hr>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>SuperGlue是Magicleap团队在SuperPoint后的又一力作，其思路与方法之巧妙不输SuperPoint，完成的任务也是传统视觉问题中特征点提取和描述（SuperPoint）的后一步–特征点匹配。<br>说起匹配，最传统的就是直接根据上一步提取出的特征描述子，计算两者间的欧式距离来衡量匹配的概率，也就是俗称的最近邻搜索（NN Search）。最近几年，随着深度学习的发展，有学者将处理点云数据的网络PointNet应用到匹配任务中，如PointCN，OANet等，但这些都是直接将所有匹配点一股脑输入网络，用网络拟合函数做分类任务。而SuperGlue，则为匹配问题提供了一个新的思路。  </p>
 <hr>
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>基本操作也是腐蚀和膨胀。<br><strong>Dilation（膨胀）：</strong><br>先看公式：$F\bigoplus k=max_{a,b\in k}{F(x-a,y-b)+k(a,b)}$<br>同样有两种算法。<br>1）平移<br>对原图先加上SE对应部分的值，再向SE对应的位置平移，然后取最大值。<br>比如，现在有一个一维的SE: [1,2,3], 中心点定为第一个点，就是“1”。<br>那么首先对应于“1”，则是原图位置不变加1.<br>对于“2”，原图灰度值加2，向右平移一位。<br>对于“3”，原图灰度值加3，向右平移两位。<br>最后将三张图重合，并在原图区域取最大值，作为结果图。<br>2）盖章<br>SE在原图上滑动，每个滑动的位置，SE与原图相加，中心点取SE范围内最大值作为结果。<br>这个程序上好实现。<br>==直观上，就是原图亮的地方会更亮（整体亮度增加），且范围扩大。==<br><strong>Erosion（腐蚀）：</strong><br>公式：$F\bigodot k=min_{a,b \in k}{F(x-a,y-b)-k(a,b)}$<br>与膨胀不同的就是与SE相减，取最小值。<br>==直观上就是，暗的地方会更暗（整体亮度减小）==<br><strong>Open（开）：</strong><br>先腐蚀后膨胀。<br>==直观上就是消除了原图上比SE小的亮处。==<br><strong>Close（闭）：</strong><br>先膨胀后腐蚀。<br>==直观上与Open相反，消除了暗处。==  </p>
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>SuperGlue对于匹配问题的新看法，是用一个经典的数学问题来定义，即最优运输问题（Optimal Transport）。  </p>
+<h3 id="最优运输问题"><a href="#最优运输问题" class="headerlink" title="最优运输问题"></a>最优运输问题</h3><p>关于最优运输问题的一个例子就是：把一堆沙子里的每一铲都对应到一个沙雕上的一铲沙子，怎么搬沙子最省力气。数学上的解释就是：从一个概率分布转换到另一个概率分布所需要的最小代价。<br>那么匹配问题是如何看成最优运输的呢？我的理解是：<strong>原先没有匹配的点群作为一个概率分布，而匹配完成后的点是另一个概率分布，这其中的转换代价就是匹配概率。</strong><br>所以SuperGlue就是用神经网络来预测这种转换代价，也就是最终输出的分配矩阵（第i行第j列表示A图中第i个点与B图中第j个点之间的匹配概率）。<br>虽然是如此定义的，但在实际方法中，可以看到，SuperGLue先是从原始的特征点分布用图神经网络估计出转换到一个中间分布的（得分矩阵）cost，然后从中间分布到最终的分布又可以看作是一个OT问题，在这一步，作者则是直接采用了传统可微的Sinkhore算法来得到最终的分配矩阵。  </p>
 <hr>
-<h2 id="组合算法"><a href="#组合算法" class="headerlink" title="组合算法"></a>组合算法</h2><p><strong>TopHat Transform:</strong><br>高帽变换分为白色高帽变换和黑色高帽变换。<br>白色是指将灰度Close过的图和原图相减。<br>黑色是指将原图与灰度Open过的图相减。<br>总之就是留下了灰度形态学操作突出的部分。  </p>
-<p><strong>Grayscale Reconstruction:</strong><br>灰度重建分为OBR和CBR。<br>一个是针对Open后的图片重建。<br>一个是针对Close后的图片重建。<br>重建算法就是不断膨胀，但每次膨胀后与原图比较，将灰度值高于原图处的点置为原图的灰度值。<br>意思就是不能超过原图的灰度值。重复膨胀直到稳定。<br>==类似二值里面的Conditional Dilation==</p>
-<p><strong>梯度：</strong><br>灰度形态学也有梯度，和二值里面的相同。  </p>
+<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><p>SuperGlue的作者认为，一个好的匹配算法，应该是能够找到所有存在匹配的点的匹配点，同时还要甄别出那些无匹配的点，所以作者将最后的输出定义为一个分配矩阵P。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png" alt="Magic"><br>如何得到这个分配矩阵呢？作者首先从人类视觉的角度做了一些思考。我们在找匹配的时候，首先需要确立一个点的特殊性，显而易见的，需要这个点的位置和像素信息；其次，我们还可以从一个点与另一个点的相对位置关系来确定其特殊性；最后，在另一张图中的信息也可以用于判别一些难以区分的情况（人为定义信息之间的拓扑结构）。同时，我们往往会在两张图片中来回对比（迭代），将注意力集中在某些点与点的关系上（attention）。<br>基于以上几点，作者提出了如下图所示的网络结构。首先，作者设计了一个encoder，用于将之前提取出的点的位置和描述整合到一起，然后用图的形式将图内和图间的特征点连接起来（相当于一种信息流向的先验知识），并且在图的边上增加了可学习的权重作为attention机制，通过图网络的迭代，最后得到特征点的匹配描述子（f）。<br>然后作者根据这个描述子对各点的匹配进行打分（用描述子的内积，来衡量相似度），得到一个匹配得分矩阵，而由于遮挡等因素，可能会出现无匹配的情况，作者就在这个得分矩阵的最后增加了一行一列（dustbin），用于放置无匹配的特征点。<br>从得分矩阵到最后的分配矩阵，可以看作是一个OT问题，作者用传统的可微的Sinkhorn算法来解决。最后drop dustbin后得到分配矩阵P。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_archi.png" alt="Magic"><br>网络的loss采用分配矩阵中代表匹配的概率值的log形式。  </p>
 <hr>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这里的算法都可以在我的GitHub里的<a target="_blank" rel="noopener" href="https://github.com/Easonyesheng/DIP_GUI">项目</a>里找到<br>包括灰度形态学基本操作（D，E，O，C），以及部分组合算法。<br>该项目是一个包括阈值分割、卷积滤波、形态学和灰度形态学的数字图像处理算法集合<br>用法见readme文件。<br>且带有GUI，有很好的演示效果<br>觉得可以别忘了star哦  </p>
+<h2 id="Experiment-amp-Result"><a href="#Experiment-amp-Result" class="headerlink" title="Experiment &amp; Result"></a>Experiment &amp; Result</h2><p>这篇文章的实验是挑选了两个以匹配为核心的视觉任务–单应估计、姿态估计。对比的对象是传统匹配算法（NN）和learning-based算法（OANet）。同时，作者还在前段提取算法上，做了一些组合，最后得到的结论就是SuperPoint+SuperGlue效果最好。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp1.png" alt="Magic"><br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp2.png" alt="Magic">  </p>
+<hr>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>SuperGlue这个方法给人第一直觉上是很合理的，不仅有数学做支撑，也有结合了信息流拓扑结构的网络，给人很make sense的感觉。作者也认为这是通往DeepSLAM的主要里程碑。  </p>
 
     </div>
 
@@ -261,7 +268,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag"># 数字图像处理</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" rel="tag"># 论文笔记</a>
           </div>
 
         
@@ -270,13 +277,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/13/DIP3/" rel="prev" title="数字图像处理总结3">
-      <i class="fa fa-chevron-left"></i> 数字图像处理总结3
+    <a href="/2020/08/28/Superpoint/" rel="prev" title="Superpoint 论文解读">
+      <i class="fa fa-chevron-left"></i> Superpoint 论文解读
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/08/13/Python-%E5%8F%8C%E7%9B%AE%E8%87%AA%E6%A0%87%E5%AE%9A%E7%B3%BB%E7%BB%9F/" rel="next" title="Python实现的双目相机自标定系统">
-      Python实现的双目相机自标定系统 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -335,7 +339,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%934"><span class="nav-number">1.</span> <span class="nav-text">图像处理总结4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">组合算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code"><span class="nav-number">1.3.</span> <span class="nav-text">Code</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SuperGlue-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8C%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E7%9A%84%E7%89%B9%E5%BE%81%E7%82%B9%E5%8C%B9%E9%85%8D%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">SuperGlue: 基于图神经网络和注意力机制的特征点匹配网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">1.1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.2.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BC%98%E8%BF%90%E8%BE%93%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">最优运输问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Methods"><span class="nav-number">1.3.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiment-amp-Result"><span class="nav-number">1.4.</span> <span class="nav-text">Experiment &amp; Result</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -40,7 +40,7 @@
 <meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/getExt.png">
 <meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/distortion.png">
 <meta property="article:published_time" content="2020-08-13T07:48:08.000Z">
-<meta property="article:modified_time" content="2020-10-08T03:14:28.077Z">
+<meta property="article:modified_time" content="2020-10-10T13:22:06.554Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-08 11:14:28" itemprop="dateModified" datetime="2020-10-08T11:14:28+08:00">2020-10-08</time>
+                <time title="修改时间：2020-10-10 21:22:06" itemprop="dateModified" datetime="2020-10-10T21:22:06+08:00">2020-10-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,6 +252,7 @@
 <li>图像坐标系<br>  相机生成图像平面为坐标系的XY平面，Z轴则朝向相机所指方向。一般与相机坐标系间存在一个尺度的变换（真实尺度到像素）。</li>
 </ul>
 <p>相机的投影模型描述的就是点从世界坐标系到图像坐标系的投影，$q = PQ$，P为相机投影矩阵。具体可以写成下图的形式：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/ProjectionMatrix.png" alt="img"><br>图中M是相机的内参，包括x，y轴上的焦距和相机中心的偏移（相机制造时不可避免的偏移）。W是相机的外参，包括从世界坐标系到相机坐标系的旋转和平移矩阵。s则是相机坐标系到图像坐标系的尺度变换。<br>所以从理论上讲，如果我们要实现标定（明确相机内外参数），必然需要明确两个坐标系下的点坐标。<br>同时，注意到相机内参是不会随坐标系变化的，而相机外参则是对每个世界/图像坐标系都有不同的值。所以用同一坐标系定义下的多组点，或者用不同坐标系定义下的多组点都可以通过方程的堆积来求出相机的内外参。<br>但是张正友教授采用的是另一种更简单而高效的思路，就是从平面出发来标定。<br>图像平面自然是三维世界中的一个平面，而如果世界坐标系中的点也存在于一个平面，那么从平面到平面的点的投影就可以用另一种方式描述 –  单应变换（Homography Transformation）。<br>单应变换用一个3x3的矩阵来表示点到点的投影，这个矩阵可以通过四组点的对应来求。而为了使世界坐标系下的点坐标已知，这里的平面选择的是存在明确角点的国际象棋棋盘（设角点间的实际距离为1，第一个角点坐标为$(0,0,0)$，第二个为$(0,1,0)$，以此类推）。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/PlaneTrans.png" alt="img"><br>此时，原先的点变换可以写为：$q = HQ$，而将棋盘设定为世界坐标系的XY平面，则棋盘上的点z坐标为0，所以有：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/Ze0.png" alt="img"><br>将单应变换和投影变换联立，则有：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/Homo2ProjM.png" alt="img"><br>所以相机的外参就可以用h表示为：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/getExt.png" alt="img"><br>上式中$r_1.r_2$是旋转向量，所以满足正交且模长相等的约束：$r_1^Tr_2 = 0, |r_1| = |r_2|$<br>所以可以推出以下公式（称为两个约束）：<br>$h_1^T M^{-T}M^{-1}h_2=0 $<br>$h_1^T M^{-T}M^{-1}h_1 = h_2^T M^{-T}M^{-1}h_2 $<br>注意到两个式子中$M^{-T}M^{-1}$作为整体出现，所以可以用一个矩阵来代替：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/BM.png" alt="img"><br>同时，B可以由相机内参唯一解出：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/B2Int.png" alt="img"><br>注意到B是一个对称矩阵，所以有6个未知元素（但实际只有4个自由度），且约束中有$h_i^T B h_j$作为整体出现，重新排列B的元素构成向量b，则对任意的$h_i, h_j$有：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/hBh.png" alt="img"><br>将两个约束带入，得到：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/Vb.png" alt="img"><br>到这一步我们可以发现，$v_ij$是只和H有关的向量，而b是只和相机内参有关的向量，所以只要有足够多的H就可以通过这个方程组求出b，即求出相机内参。而对于单个H（一个朝向的棋盘）可以提供两个方程，对于b，其自由度为4，所以只要最少2个不同的H就可以求出b，这也是为什么实际操作时需要拍不同朝向的棋盘图片的原因。<br>相机内参求出如下：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/getInt.png" alt="img"><br>求出相机内参后，对于特定棋盘的外参也可以求出：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/getExt.png" alt="img"><br>而以上部分是没有考虑相机的两个畸变的（径向畸变和切向畸变），设$(x_p, y_p)$是点的真实位置，$(x_d, y_d)$是畸变后的位置，有替换公式如下：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/Camera/distortion.png" alt="img"><br>相当于往原先的方程组中引入了5个未知参数，这样就需要更多的方程，即更多的棋盘图片。  </p>
+<h3 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h3><p>以上的步骤只能得到一个无几何意义的初始解，为此zhang在论文中以该解为起点进行优化，优化目标是点的重投影误差，所以标定问题的难点就在于最后要解的是一个非线性最优化问题，zhang的论文中采用的是Levenberg-Marquardt算法。但是最优化问题常常会困在局部最优解上，同时不同的输入图片，也就是棋盘图片的位姿等因素，会对初始解造成影响，从而使结果困在不同的局部最优解上，导致标定的结果不同。<br>同时，真实相机的模型并不一定是小孔模型，最优化方法只能弥补一部分模型近似的误差。  </p>
 <hr>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>实现是基于python-opencv。<br>棋盘图片需要选用长宽不等的（例如6x7），便于确认朝向，其次是棋盘的边缘最好留白，这样不会对找角点的函数造成影响。<br>具体流程是先用读入棋盘图片，然后用cv2.findChessboardCorners去寻找每张棋盘的角点，如果能够全部找到，就再去寻找亚像素坐标，用cv2.cornerSubPix。然后就是用cv2.calibrateCamera来标定，具体可以看代码中ModelCalibrator.py的Calibrator类的run方法。  </p>
 <p>—–</p>
@@ -358,7 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E7%9B%AE%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">单目相机标定原理及实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E6%92%95%E5%85%AC%E5%BC%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">手撕公式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code"><span class="nav-number">1.3.</span> <span class="nav-text">Code</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E7%9B%AE%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">单目相机标定原理及实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E6%92%95%E5%85%AC%E5%BC%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">手撕公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">难点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code"><span class="nav-number">1.3.</span> <span class="nav-text">Code</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -20,25 +20,20 @@
     var CONFIG = {"hostname":"northpointer.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="A milestone towards end-to-end deep SLAM.">
+  <meta name="description" content="计算机视觉中的多视图几何笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SuperGlue 基于图神经网络和注意力机制的特征点匹配网络">
-<meta property="og:url" content="http://northpointer.xyz/2020/09/07/SuperGlue/index.html">
+<meta property="og:title" content="2D射影几何与变换（1）">
+<meta property="og:url" content="http://northpointer.xyz/2020/08/13/2DProjectGeometry_1/index.html">
 <meta property="og:site_name" content="指北集">
-<meta property="og:description" content="A milestone towards end-to-end deep SLAM.">
+<meta property="og:description" content="计算机视觉中的多视图几何笔记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png">
-<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_archi.png">
-<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp1.png">
-<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp2.png">
-<meta property="article:published_time" content="2020-09-07T07:26:22.000Z">
-<meta property="article:modified_time" content="2020-09-13T06:56:18.778Z">
+<meta property="article:published_time" content="2020-08-13T07:48:08.000Z">
+<meta property="article:modified_time" content="2020-10-19T13:37:37.224Z">
 <meta property="article:author" content="Eason Zhang">
-<meta property="article:tag" content="论文笔记">
+<meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png">
 
-<link rel="canonical" href="http://northpointer.xyz/2020/09/07/SuperGlue/">
+<link rel="canonical" href="http://northpointer.xyz/2020/08/13/2DProjectGeometry_1/">
 
 
 <script id="page-configurations">
@@ -51,7 +46,7 @@
   };
 </script>
 
-  <title>SuperGlue 基于图神经网络和注意力机制的特征点匹配网络 | 指北集</title>
+  <title>2D射影几何与变换（1） | 指北集</title>
   
 
 
@@ -173,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2020/09/07/SuperGlue/">
+    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2020/08/13/2DProjectGeometry_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -186,11 +181,15 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          SuperGlue 基于图神经网络和注意力机制的特征点匹配网络
+          2D射影几何与变换（1）
         </h1>
 
         <div class="post-meta">
         
+          
+            <i class="fa fa-thumb-tack"></i>
+            <font color=7D26CD>置顶</font>
+            <span class="post-meta-divider">|</span>
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,14 +197,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-09-07 15:26:22" itemprop="dateCreated datePublished" datetime="2020-09-07T15:26:22+08:00">2020-09-07</time>
+              <time title="创建时间：2020-08-13 15:48:08" itemprop="dateCreated datePublished" datetime="2020-08-13T15:48:08+08:00">2020-08-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-13 14:56:18" itemprop="dateModified" datetime="2020-09-13T14:56:18+08:00">2020-09-13</time>
+                <time title="修改时间：2020-10-19 21:37:37" itemprop="dateModified" datetime="2020-10-19T21:37:37+08:00">2020-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -218,7 +217,7 @@
             </span>
 
           
-            <div class="post-description">A milestone towards end-to-end deep SLAM.</div>
+            <div class="post-description">计算机视觉中的多视图几何笔记</div>
 
         </div>
       </header>
@@ -229,17 +228,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="SuperGlue"><a href="#SuperGlue" class="headerlink" title="SuperGlue"></a>SuperGlue</h1><hr>
-<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>SuperGlue是Magicleap团队在SuperPoint后的又一力作，其思路与方法之巧妙不输SuperPoint，完成的任务也是传统视觉问题中特征点提取和描述（SuperPoint）的后一步–特征点匹配。<br>说起匹配，最传统的就是直接根据上一步提取出的特征描述子，计算两者间的欧式距离来衡量匹配的概率，也就是俗称的最近邻搜索（NN Search）。最近几年，随着深度学习的发展，有学者将处理点云数据的网络PointNet应用到匹配任务中，如PointCN，OANet等，但这些都是直接将所有匹配点一股脑输入网络，用网络拟合函数做分类任务。而SuperGlue，则为匹配问题提供了一个新的思路。  </p>
+        <h1 id="2D射影几何与变换（1）"><a href="#2D射影几何与变换（1）" class="headerlink" title="2D射影几何与变换（1）"></a>2D射影几何与变换（1）</h1><p>这篇主要介绍在2D射影空间中，点、直线与二次曲线的相关概念。<br>射影几何的核心在于从更高的维度看2维世界，从而可以得到很好的一些性质。  </p>
 <hr>
-<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>SuperGlue对于匹配问题的新看法，是用一个经典的数学问题来定义，即最优运输问题（Optimal Transport）。  </p>
-<h3 id="最优运输问题"><a href="#最优运输问题" class="headerlink" title="最优运输问题"></a>最优运输问题</h3><p>关于最优运输问题的一个例子就是：把一堆沙子里的每一铲都对应到一个沙雕上的一铲沙子，怎么搬沙子最省力气。数学上的解释就是：从一个概率分布转换到另一个概率分布所需要的最小代价。<br>那么匹配问题是如何看成最优运输的呢？我的理解是：<strong>原先没有匹配的点群作为一个概率分布，而匹配完成后的点是另一个概率分布，这其中的转换代价就是匹配概率。</strong><br>所以SuperGlue就是用神经网络来预测这种转换代价，也就是最终输出的分配矩阵（第i行第j列表示A图中第i个点与B图中第j个点之间的匹配概率）。<br>虽然是如此定义的，但在实际方法中，可以看到，SuperGLue先是从原始的特征点分布用图神经网络估计出转换到一个中间分布的（得分矩阵）cost，然后从中间分布到最终的分布又可以看作是一个OT问题，在这一步，作者则是直接采用了传统可微的Sinkhore算法来得到最终的分配矩阵。  </p>
-<hr>
-<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><p><strong>SuperGlue的作者认为，一个好的匹配算法，应该是能够找到所有存在匹配的点的匹配点，同时还要甄别出那些无匹配的点，所以作者将最后的输出定义为一个分配矩阵P。</strong><br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_partial_assignment.png" alt="Magic"><br>如何得到这个分配矩阵呢？作者首先从人类视觉的角度做了一些思考。我们在找匹配的时候，首先需要确立一个点的特殊性，显而易见的，需要这个点的位置和像素信息；其次，我们还可以从一个点与另一个点的相对位置关系来确定其特殊性；最后，在另一张图中的信息也可以用于判别一些难以区分的情况（人为定义信息之间的拓扑结构）。同时，我们往往会在两张图片中来回对比（迭代），将注意力集中在某些点与点的关系上（attention）。<br>基于以上几点，作者提出了如下图所示的网络结构。首先，作者设计了一个encoder，用于将之前提取出的点的位置和描述整合到一起，然后用图的形式将图内和图间的特征点连接起来（相当于一种信息流向的先验知识），并且在图的边上增加了可学习的权重作为attention机制，通过图网络的迭代，最后得到特征点的匹配描述子（f）。<br>然后作者根据这个描述子对各点的匹配进行打分（用描述子的内积，来衡量相似度），得到一个匹配得分矩阵，而由于遮挡等因素，可能会出现无匹配的情况，作者就在这个得分矩阵的最后增加了一行一列（dustbin），用于放置无匹配的特征点。<br>从得分矩阵到最后的分配矩阵，可以看作是一个OT问题，作者用传统的可微的Sinkhorn算法来解决。最后drop dustbin后得到分配矩阵P。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_archi.png" alt="Magic"><br>网络的loss采用分配矩阵中代表匹配的概率值的log形式。  </p>
-<hr>
-<h2 id="Experiment-amp-Result"><a href="#Experiment-amp-Result" class="headerlink" title="Experiment &amp; Result"></a>Experiment &amp; Result</h2><p>这篇文章的实验是挑选了两个以匹配为核心的视觉任务–单应估计、姿态估计。对比的对象是传统匹配算法（NN）和learning-based算法（OANet）。同时，作者还在前段提取算法上，做了一些组合，最后得到的结论就是SuperPoint+SuperGlue效果最好。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp1.png" alt="Magic"><br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/PaperNotes/SuperGlue_exp2.png" alt="Magic">  </p>
-<hr>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>SuperGlue这个方法给人第一直觉上是很合理的，不仅有数学做支撑，也有结合了信息流拓扑结构的网络，给人很make sense的感觉。作者也认为这是通往DeepSLAM的一个重要里程碑。  </p>
+<h2 id="点与直线"><a href="#点与直线" class="headerlink" title="点与直线"></a>点与直线</h2><h3 id="直线"><a href="#直线" class="headerlink" title="直线"></a>直线</h3><p>平面上的直线可以用$ax+by+c=0$来表示，那么就可以用向量$(a,b,c)^T$来表示一条直线，称为直线的齐次向量，因为$(a,b,c)^T$和$k(a,b,c)^T$表示同一个直线。**具有这种齐次性的向量称为齐次向量，$IR^3$中这样的向量集合（除去$(0,0,0)^T$）就构成是射影空间$IP^2$**。  </p>
+<h3 id="点"><a href="#点" class="headerlink" title="点"></a>点</h3><p>对于点$(x,y)$，它在直线上的充要条件是$ax+by+c=0$，也就是$(a,b,c)(x,y,1)=0$，所以显然点在$IP^2$的齐次坐标为$(x,y,1)$，该坐标也满足齐次性，对于坐标$x=(x_1,x_2,x_3)$表示$IR^2$上的点$(x_1/x_3,x_2/x_3)$。  </p>
+<h3 id="直线的交点-x-l-times-l’"><a href="#直线的交点-x-l-times-l’" class="headerlink" title="直线的交点$x = l \times l’$"></a>直线的交点$x = l \times l’$</h3><h3 id="点连成的直线-l-x-times-x’"><a href="#点连成的直线-l-x-times-x’" class="headerlink" title="点连成的直线$l = x \times x’$"></a>点连成的直线$l = x \times x’$</h3><h3 id="理想点"><a href="#理想点" class="headerlink" title="理想点"></a>理想点</h3><p>当我们考察两平行直线$ax+by+c=0, ax+by+c’=0$的交点时，得到交点为$(c’-c)(b,-a,0)$，显然该点不和二维平面空间上的任何点对应，而一般认为平行线交于无穷远点，所以将$x_3=0$的齐次坐标点看作无穷远点，也称为理想点。同时有$IP^2$的另一个解释，即将$x_3!=0$的齐次坐标对应的$IR^2$中的有限点的集合加入$x_3=0$的点，扩充的集合作为射影空间。可以验证，所有理想点构成一条直线$I=(0,0,1)^T$，即无穷远直线。<br>向量$(b,-a)$与直线$ax+by+c=0$的法线相切，所以是直线的方向，所以无穷远直线可以看作是所有直线方向的集合。</p>
+<h2 id="从-IR-3-看-IP-2"><a href="#从-IR-3-看-IP-2" class="headerlink" title="从$IR^3$看$IP^2$"></a>从$IR^3$看$IP^2$</h2><p>$IP^2$中的点可以看作$IR^3$中过原点的射线，因为其满足齐次性，即在$IR^3$中不管长度，方向决定一个点，同样，$IP^2$中的线可以看作$IR^3$中过原点的平面。  </p>
+<h2 id="自由度"><a href="#自由度" class="headerlink" title="自由度"></a>自由度</h2><p>$IP^2$中元素的自由度往往是其向量维度减1，因为要满足齐次性，所以是由比率来确定唯一性的。  </p>
+<h2 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h2><p>在$IP^2$中，任何定理都有一个对偶定理，可以通过互换点和线的角色来得到。如上文中直线的交点和点连成的直线。  </p>
+<h2 id="二次曲线"><a href="#二次曲线" class="headerlink" title="二次曲线"></a>二次曲线</h2><p>在欧式几何中，二次曲线是不同平面与圆锥的截线，方程为$ax^2+bxy+cy^2+dx+ey+f=0$，齐次化（$x-&gt;x_1/x_3, y-&gt;x_2/x_3$）得到$ax_1^2+bx_1x_2+cx_2^2+dx_1x_3+ex_2x_3+fx_3^2=0$，可以写成矩阵$x^TCx=0$，其中<br>$$<br>C=\left[<br>    \begin{matrix}<br>    a &amp; b/2 &amp; d/2 \<br>    b/2 &amp; c &amp; e/2 \<br>    d/2 &amp; c/2 &amp; f<br>    \end{matrix}<br>    \right]<br>$$<br>所以每一个对称矩阵都是一个二次曲线，因为其自由度为5，可以通过5个点来确定。  </p>
+<h3 id="与二次曲线相切于x的直线满足-I-Cx"><a href="#与二次曲线相切于x的直线满足-I-Cx" class="headerlink" title="与二次曲线相切于x的直线满足$I = Cx$"></a>与二次曲线相切于x的直线满足$I = Cx$</h3><h3 id="对偶二次曲线"><a href="#对偶二次曲线" class="headerlink" title="对偶二次曲线"></a>对偶二次曲线</h3><p>由对偶性，可以得到用直线定义的二次曲线$l^T C^{<em>} l=0$，其中$C^{</em>}$是C的伴随矩阵，对于可逆对称阵，$C^{*}=C^{-1}$，对偶二次曲线是由直线与二次曲线相切得到的，也就是说它的元素是与二次曲线相切的直线，而二次曲线的元素是点。对偶二次曲线是直线族，而对应的二次曲线是这些直线的包络。  </p>
+<h3 id="退化二次曲线"><a href="#退化二次曲线" class="headerlink" title="退化二次曲线"></a>退化二次曲线</h3><p>如果C不满秩，则二次曲线是退化的，为两条直线（rank2）或一条重线（rank1）。 </p>
 
     </div>
 
@@ -268,7 +267,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" rel="tag"># 论文笔记</a>
+              <a href="/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/" rel="tag"># 双目视觉</a>
           </div>
 
         
@@ -277,10 +276,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/28/Superpoint/" rel="prev" title="Superpoint 论文解读">
-      <i class="fa fa-chevron-left"></i> Superpoint 论文解读
+    <a href="/2020/08/13/DIP4/" rel="prev" title="数字图像处理总结4">
+      <i class="fa fa-chevron-left"></i> 数字图像处理总结4
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/13/Principle_of_Calibration_and_Implemention/" rel="next" title="基于python-opencv的相机标定原理及实现">
+      基于python-opencv的相机标定原理及实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -339,7 +341,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SuperGlue"><span class="nav-number">1.</span> <span class="nav-text">SuperGlue</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">1.1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.2.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BC%98%E8%BF%90%E8%BE%93%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">最优运输问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Methods"><span class="nav-number">1.3.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiment-amp-Result"><span class="nav-number">1.4.</span> <span class="nav-text">Experiment &amp; Result</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2D%E5%B0%84%E5%BD%B1%E5%87%A0%E4%BD%95%E4%B8%8E%E5%8F%98%E6%8D%A2%EF%BC%881%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">2D射影几何与变换（1）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E4%B8%8E%E7%9B%B4%E7%BA%BF"><span class="nav-number">1.1.</span> <span class="nav-text">点与直线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E7%BA%BF"><span class="nav-number">1.1.1.</span> <span class="nav-text">直线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E7%BA%BF%E7%9A%84%E4%BA%A4%E7%82%B9-x-l-times-l%E2%80%99"><span class="nav-number">1.1.3.</span> <span class="nav-text">直线的交点$x &#x3D; l \times l’$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E8%BF%9E%E6%88%90%E7%9A%84%E7%9B%B4%E7%BA%BF-l-x-times-x%E2%80%99"><span class="nav-number">1.1.4.</span> <span class="nav-text">点连成的直线$l &#x3D; x \times x’$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E6%83%B3%E7%82%B9"><span class="nav-number">1.1.5.</span> <span class="nav-text">理想点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E-IR-3-%E7%9C%8B-IP-2"><span class="nav-number">1.2.</span> <span class="nav-text">从$IR^3$看$IP^2$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%94%B1%E5%BA%A6"><span class="nav-number">1.3.</span> <span class="nav-text">自由度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E5%81%B6%E6%80%A7"><span class="nav-number">1.4.</span> <span class="nav-text">对偶性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.5.</span> <span class="nav-text">二次曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E4%BA%8C%E6%AC%A1%E6%9B%B2%E7%BA%BF%E7%9B%B8%E5%88%87%E4%BA%8Ex%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%BB%A1%E8%B6%B3-I-Cx"><span class="nav-number">1.5.1.</span> <span class="nav-text">与二次曲线相切于x的直线满足$I &#x3D; Cx$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E5%81%B6%E4%BA%8C%E6%AC%A1%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.5.2.</span> <span class="nav-text">对偶二次曲线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E5%8C%96%E4%BA%8C%E6%AC%A1%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.5.3.</span> <span class="nav-text">退化二次曲线</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

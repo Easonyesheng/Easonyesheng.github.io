@@ -28,7 +28,7 @@
 <meta property="og:description" content="计算机视觉中的多视图几何笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-20T07:48:08.000Z">
-<meta property="article:modified_time" content="2020-10-20T11:08:58.781Z">
+<meta property="article:modified_time" content="2021-02-25T13:15:07.309Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
@@ -192,10 +192,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-20 15:48:08 / 修改时间：19:08:58" itemprop="dateCreated datePublished" datetime="2020-10-20T15:48:08+08:00">2020-10-20</time>
+              <time title="创建时间：2020-10-20 15:48:08" itemprop="dateCreated datePublished" datetime="2020-10-20T15:48:08+08:00">2020-10-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 21:15:07" itemprop="dateModified" datetime="2021-02-25T21:15:07+08:00">2021-02-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -228,7 +234,7 @@
 <h2 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h2><p>在$IP^2$中，任何定理都有一个对偶定理，可以通过互换点和线的角色来得到。如上文中直线的交点和点连成的直线。  </p>
 <h2 id="二次曲线"><a href="#二次曲线" class="headerlink" title="二次曲线"></a>二次曲线</h2><p>在欧式几何中，二次曲线是不同平面与圆锥的截线，方程为$ax^2+bxy+cy^2+dx+ey+f=0$，齐次化（$x-&gt;x_1/x_3, y-&gt;x_2/x_3$）得到$ax_1^2+bx_1x_2+cx_2^2+dx_1x_3+ex_2x_3+fx_3^2=0$，可以写成矩阵$x^TCx=0$，其中<br>$$<br>C=\left[<br>    \begin{matrix}<br>    a &amp; b/2 &amp; d/2 \<br>    b/2 &amp; c &amp; e/2 \<br>    d/2 &amp; c/2 &amp; f<br>    \end{matrix}<br>    \right]<br>$$<br>所以每一个对称矩阵都是一个二次曲线，因为其自由度为5，可以通过5个点来确定。  </p>
 <h3 id="与二次曲线相切于x的直线满足-I-Cx"><a href="#与二次曲线相切于x的直线满足-I-Cx" class="headerlink" title="与二次曲线相切于x的直线满足$I = Cx$"></a>与二次曲线相切于x的直线满足$I = Cx$</h3><h3 id="对偶二次曲线"><a href="#对偶二次曲线" class="headerlink" title="对偶二次曲线"></a>对偶二次曲线</h3><p>由对偶性，可以得到用直线定义的二次曲线$l^T C^{<em>} l=0$，其中$C^{</em>}$是C的伴随矩阵，对于可逆对称阵，$C^{*}=C^{-1}$，对偶二次曲线是由直线与二次曲线相切得到的，也就是说它的元素是与二次曲线相切的直线，而二次曲线的元素是点。对偶二次曲线是直线族，而对应的二次曲线是这些直线的包络。  </p>
-<h3 id="退化二次曲线"><a href="#退化二次曲线" class="headerlink" title="退化二次曲线"></a>退化二次曲线</h3><p>如果C不满秩，则二次曲线是退化的，为两条直线（rank2）或一条重线（rank1）。 </p>
+<h3 id="退化二次曲线"><a href="#退化二次曲线" class="headerlink" title="退化二次曲线"></a>退化二次曲线</h3><p>如果C不满秩，则二次曲线是退化的，为两条直线（rank2）或一条重线（rank1）。<br>例如：<br>$$<br>C=lm^T + ml^T<br>$$<br>是由两条直线$l$和$m$构成，属于退化的二次曲线。  </p>
 
     </div>
 
@@ -269,7 +275,10 @@
     <a href="/2020/09/07/SuperGlue/" rel="prev" title="SuperGlue 基于图神经网络和注意力机制的特征点匹配网络">
       <i class="fa fa-chevron-left"></i> SuperGlue 基于图神经网络和注意力机制的特征点匹配网络
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/25/2DProjectGeometry-2/" rel="next" title="2D射影几何与变换（2）">
+      2D射影几何与变换（2） <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -344,7 +353,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -395,8 +404,8 @@
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

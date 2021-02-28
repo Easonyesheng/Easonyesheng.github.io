@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/HeTrans.png">
 <meta property="article:published_time" content="2021-02-25T12:48:57.000Z">
-<meta property="article:modified_time" content="2021-02-28T06:14:33.315Z">
+<meta property="article:modified_time" content="2021-02-28T06:16:31.224Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-28 14:14:33" itemprop="dateModified" datetime="2021-02-28T14:14:33+08:00">2021-02-28</time>
+                <time title="修改时间：2021-02-28 14:16:31" itemprop="dateModified" datetime="2021-02-28T14:16:31+08:00">2021-02-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
 </li>
 </ul>
 <h3 id="直线的变换"><a href="#直线的变换" class="headerlink" title="直线的变换"></a>直线的变换</h3><p>对于点的变换，就是简单的$x’ = Hx$，而对于直线的变换，则是$l’ = H^{-T} l$，依赖于$H^{-1}$，称为协变。  </p>
-<h3 id="二次曲线的变换"><a href="#二次曲线的变换" class="headerlink" title="二次曲线的变换"></a>二次曲线的变换</h3><p>在点变换$x’=Hx$下，二次曲线$x^T Cx={x’}^TH^{-T}CH^{-1}x’$，也是一种二次型: $x’^T C’ x’, C’ = H^{-t}CH^{-1}$。<br>即二次曲线的变换为：<br>$$<br>C’ = H^{-T}CH^{-1}<br>$$<br>对偶二次曲线变为：<br>$$<br>C^{<em>}’ = HC^{</em>}H^T<br>$$</p>
+<h3 id="二次曲线的变换"><a href="#二次曲线的变换" class="headerlink" title="二次曲线的变换"></a>二次曲线的变换</h3><p>在点变换$x’=Hx$下，二次曲线$x^T Cx={x’}^TH^{-T}CH^{-1}x’$，也是一种二次型: $x’^T C’ x’, C’ = H^{-t}CH^{-1}$。<br>即二次曲线的变换为：<br>$$<br>C’ = H^{-T}CH^{-1}<br>$$<br>对偶二次曲线变为：<br>$$<br>C^{<em>‘} = HC^{</em>}H^T<br>$$</p>
 <hr>
 <h2 id="变换的层次"><a href="#变换的层次" class="headerlink" title="变换的层次"></a>变换的层次</h2><ul>
 <li><p>群<br>群表示一个拥有满足封闭性、满足结合律、有单位元、有逆元的二元运算的代数结构。<br>所有的射影变换构成一个群，称为射影线性群。<br>nxn的可逆实矩阵构成n维一般线性群，称为GL(n)，而射影线性群是把相差纯量因子的矩阵视为等同，称为PL(n)，平面射影变换中，n=3.<br>PL(3)的重要子群包括仿射群（矩阵最后一行为（0，0，1））、欧式群（仿射群的子群，左上角2x2的矩阵正交）。  </p>

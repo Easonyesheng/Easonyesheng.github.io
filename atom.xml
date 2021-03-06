@@ -80,6 +80,27 @@
   </entry>
   
   <entry>
+    <title>2D射影几何与变换（0）</title>
+    <link href="http://northpointer.xyz/2021/02/25/2DProjectGeometry-0/"/>
+    <id>http://northpointer.xyz/2021/02/25/2DProjectGeometry-0/</id>
+    <published>2021-02-25T12:48:57.000Z</published>
+    <updated>2021-03-06T03:39:34.111Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="2D射影几何与变换（0）"><a href="#2D射影几何与变换（0）" class="headerlink" title="2D射影几何与变换（0）"></a>2D射影几何与变换（0）</h1><p>这篇是引言，主要对射影几何的来源、齐次坐标等进行一个高屋建瓴的阐述。<br>若公式显示不全，请移步<a href="https://blog.csdn.net/weixin_42730997/article/details/114436183">CSDN</a></p><hr><h2 id="为什么需要射影空间"><a href="#为什么需要射影空间" class="headerlink" title="为什么需要射影空间"></a>为什么需要射影空间</h2><p>欧式几何是我们最熟悉的几何空间，描述了真实世界中物体的角度和形状。<br>但是它有一个特别麻烦的地方：为了推理该几何的一些基本概念，需要给出一些例外。比如直线的交点，我们不能大胆地说，两条直线都交于一点，因为有平行线的存在，一种弥补的方法是说平行线交于无穷远点，但在欧式空间中，并不能从代数上表示无穷远点，所以并不能让人信服。<br>射影空间则是规避这个问题而产生的，即在平行线的相交处补充无穷远点来扩充欧式平面。而在代数上，射影几何通过三元组表示一个点，如欧式几何中，点$(x,y)$，在射影几何中表示为：$(kx,ky,k)$，且定义对于相差一个公共倍数的三元组是等价的。<br><strong>可以看到，当$k=0$时，会发现此时对应的欧式点的坐标为无限大，即无穷远点。</strong><br>通过这种表示方式，即在点的代数表示上增加一维（称为<strong>齐次坐标</strong>），就可以将欧式空间$IR^n$扩展为$IP^n$。除了弥补例外，齐次坐标还有一些有用的性质，比如可以将一些非线性变换转化为线性变换。其本质是一定程度上提升问题的维度。</p><hr><h2 id="从射影恢复仿射和欧式空间"><a href="#从射影恢复仿射和欧式空间" class="headerlink" title="从射影恢复仿射和欧式空间"></a>从射影恢复仿射和欧式空间</h2><p>在射影空间中，所有点等价，且无平行的概念，其中任意一个3x3的非奇异矩阵都对应一个该空间中的线性变换，称为射影变换，在射影变换下，无穷远点不被保持。<br>虽然射影空间里一切等价，但是在现实中，平行还是一个需要被区分的情况，而在射影空间中区分平行，只需要指定无穷远直线，与其交于一点的直线就是平行直线。<br>而通过将无穷远直线恢复到标准位置，射影几何就退化为仿射几何，一种保持平行的几何空间。<br>仿射几何是射影几何的特殊化，而欧式几何则是仿射几何的特殊化，通过在射影空间中指明无穷远直线和另一个特殊的角色，可以恢复欧式几何。<br>这个特殊角色就是：绝对二次曲线，一条由复值点构成，处于无穷远处的二次曲线。  </p>]]></content>
+    
+    
+    <summary type="html">计算机视觉中的多视图几何笔记</summary>
+    
+    
+    
+    <category term="博客" scheme="http://northpointer.xyz/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+    <category term="双目视觉" scheme="http://northpointer.xyz/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/"/>
+    
+  </entry>
+  
+  <entry>
     <title>2D射影几何与变换（1）</title>
     <link href="http://northpointer.xyz/2020/10/20/2DProjectGeometry_1/"/>
     <id>http://northpointer.xyz/2020/10/20/2DProjectGeometry_1/</id>

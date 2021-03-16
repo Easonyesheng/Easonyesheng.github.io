@@ -22,20 +22,22 @@
 
   <meta name="description" content="计算机视觉中的多视图几何笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2D射影几何与变换（2）">
-<meta property="og:url" content="http://northpointer.xyz/2021/02/25/2DProjectGeometry-2/index.html">
+<meta property="og:title" content="摄像机模型（1）- 有限摄像机">
+<meta property="og:url" content="http://northpointer.xyz/2021/03/15/CameraModel-1/index.html">
 <meta property="og:site_name" content="指北集">
 <meta property="og:description" content="计算机视觉中的多视图几何笔记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/HeTrans.png">
-<meta property="article:published_time" content="2021-02-25T12:48:57.000Z">
-<meta property="article:modified_time" content="2021-03-03T14:06:46.645Z">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/pinhole2.png">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/imagecoor.png">
+<meta property="og:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/Rt.png">
+<meta property="article:published_time" content="2021-03-15T13:45:46.000Z">
+<meta property="article:modified_time" content="2021-03-16T03:29:23.195Z">
 <meta property="article:author" content="Eason Zhang">
 <meta property="article:tag" content="双目视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/HeTrans.png">
+<meta name="twitter:image" content="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/pinhole2.png">
 
-<link rel="canonical" href="http://northpointer.xyz/2021/02/25/2DProjectGeometry-2/">
+<link rel="canonical" href="http://northpointer.xyz/2021/03/15/CameraModel-1/">
 
 
 <script id="page-configurations">
@@ -48,7 +50,7 @@
   };
 </script>
 
-  <title>2D射影几何与变换（2） | 指北集</title>
+  <title>摄像机模型（1）- 有限摄像机 | 指北集</title>
   
 
 
@@ -170,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/02/25/2DProjectGeometry-2/">
+    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/15/CameraModel-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -183,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          2D射影几何与变换（2）
+          摄像机模型（1）- 有限摄像机
         </h1>
 
         <div class="post-meta">
@@ -195,14 +197,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-25 20:48:57" itemprop="dateCreated datePublished" datetime="2021-02-25T20:48:57+08:00">2021-02-25</time>
+              <time title="创建时间：2021-03-15 21:45:46" itemprop="dateCreated datePublished" datetime="2021-03-15T21:45:46+08:00">2021-03-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-03 22:06:46" itemprop="dateModified" datetime="2021-03-03T22:06:46+08:00">2021-03-03</time>
+                <time title="修改时间：2021-03-16 11:29:23" itemprop="dateModified" datetime="2021-03-16T11:29:23+08:00">2021-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,33 +228,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="2D射影几何与变换（2）"><a href="#2D射影几何与变换（2）" class="headerlink" title="2D射影几何与变换（2）"></a>2D射影几何与变换（2）</h1><p>这篇主要介绍在2D射影空间中的变换，以及各种变换的层次。<br>几何研究的重点在于各种变换群下，不变的性质，对应于Gibson生态视觉中的环境不变量，是计算机视觉研究的重点。  </p>
+        <h1 id="有限摄像机模型"><a href="#有限摄像机模型" class="headerlink" title="有限摄像机模型"></a>有限摄像机模型</h1><p>摄像机是将三维世界中的点映射到二维世界的一种传感器，在齐次坐标坐标下，它可以表示为矩阵形式：秩为3的3x4矩阵。<br>本篇先从最简单的针孔摄像机模型开始，逐步将该模型一般化，得到带有一定约束的摄像机矩阵（左边3x3的子矩阵非奇异）– 有限摄像机模型。<br>在下一篇则是将这个非奇异约束去除，得到更一般的摄像机矩阵 – 一般射影摄像机模型。  </p>
 <hr>
-<h2 id="射影变换"><a href="#射影变换" class="headerlink" title="射影变换"></a>射影变换</h2><ul>
-<li><p>定义<br>射影变换是从$IP^2$【射影空间，由平面向量齐次坐标构成，剔除（0，0，0）】到自身的一个<em>可逆映射</em>，他把直线映射到直线，也称为保线变换、射影映射或单应（Homography）。是$IR^3$上的一个线性变换。  </p>
+<h2 id="三个基本坐标系"><a href="#三个基本坐标系" class="headerlink" title="三个基本坐标系"></a>三个基本坐标系</h2><p>摄像机模型可以理解为在三个基本坐标系之间的变换，所以先介绍三个基本坐标系。  </p>
+<ul>
+<li><p>世界坐标系<br>物体在真实世界中的坐标，可以自己选择位置。  </p>
 </li>
-<li><p>充要条件<br>每一个射影变换都对应一个非奇异的$3 \times 3$的矩阵H。该矩阵是一个齐次矩阵，由8个独立比率决定。</p>
+<li><p>相机坐标系<br>以相机光心为原点的坐标系。  </p>
 </li>
-<li><p>性质和应用<br>摄像机拍平面可以看作是射影变换。射影变换保线但不保平行，会产生射影失真（平行线交与一点）。</p>
+<li><p>图像坐标系<br>图像平面所在的坐标系。  </p>
 </li>
 </ul>
-<h3 id="直线的变换"><a href="#直线的变换" class="headerlink" title="直线的变换"></a>直线的变换</h3><p>对于点的变换，就是简单的$x’ = Hx$，而对于直线的变换，则是$l’ = H^{-T} l$，依赖于$H^{-1}$，称为协变。  </p>
-<h3 id="二次曲线的变换"><a href="#二次曲线的变换" class="headerlink" title="二次曲线的变换"></a>二次曲线的变换</h3><p>在点变换$x’=Hx$下，二次曲线$x^T Cx={x’}^TH^{-T}CH^{-1}x’$，也是一种二次型: $x’^T C’ x’, C’ = H^{-t}CH^{-1}$。<br>即二次曲线的变换为：<br>$$<br>C’ = H^{-T}CH^{-1}<br>$$<br>对偶二次曲线变为：<br>$$<br>C^{<em>‘} = HC^{</em>}H^T<br>$$</p>
 <hr>
-<h2 id="变换的层次"><a href="#变换的层次" class="headerlink" title="变换的层次"></a>变换的层次</h2><ul>
-<li><p>群<br>群表示一个拥有满足封闭性、满足结合律、有单位元、有逆元的二元运算的代数结构。<br>所有的射影变换构成一个群，称为射影线性群。<br>nxn的可逆实矩阵构成n维一般线性群，称为GL(n)，而射影线性群是把相差纯量因子的矩阵视为等同，称为PL(n)，平面射影变换中，n=3.<br>PL(3)的重要子群包括仿射群（矩阵最后一行为（0，0，1））、欧式群（仿射群的子群，左上角2x2的矩阵正交）。  </p>
-</li>
-<li><p>不变量<br>描述变换的一个代数方法是利用在变换下保持不变的元素，即不变量。  </p>
-</li>
-</ul>
-<h3 id="等距变换"><a href="#等距变换" class="headerlink" title="等距变换"></a>等距变换</h3><p>保持欧式距离不变的变换，还有角度、面积不变。<br>$$<br>H = \left[<br>    \begin{matrix}<br>    acos\theta &amp; -sin\theta &amp; t_x \<br>    asin\theta &amp; cos\theta &amp; t_y \<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>    \right]<br>$$<br>其中s=1 or -1.如果s=1，则保向，是欧式变换  </p>
-<h3 id="相似变换"><a href="#相似变换" class="headerlink" title="相似变换"></a>相似变换</h3><p>相似变换是一个等距变换与均匀缩放的复合。<br>不变量为：夹角、长度的比率，面积的比率。<br>$$<br>H = \left[<br>    \begin{matrix}<br>    acos\theta &amp; -asin\theta &amp; t_x \<br>    asin\theta &amp; acos\theta &amp; t_y \<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>    \right]<br>$$<br>标量a为缩放系数。  </p>
-<h3 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h3><p>仿射是一个非奇异线性变换与一个平移变换的复合。<br>变换不变量有：平行、平行线的长度比和面积比。<br>$$<br>H = \left[<br>    \begin{matrix}<br>    a_{11} &amp; a_{12} &amp; t_x \<br>    a_{21} &amp; a_{22} &amp; t_y \<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>    \right]<br>  = \left[<br>    \begin{matrix}<br>    A &amp; t \<br>    0 &amp; 1<br>    \end{matrix}<br>    \right]<br>$$<br>其中A是一个2x2的非奇异矩阵。H共有6个自由度，可以由三组点来计算。  </p>
-<h3 id="射影变换-1"><a href="#射影变换-1" class="headerlink" title="射影变换"></a>射影变换</h3><p>射影变换是最一般的齐次坐标变换，对应于一个3x3的非奇异实矩阵。<br>变换不变量：直线的交比，也称为最基本的射影不变量。<br>考虑其分块形式：  </p>
-<p>$$<br>H = \left[<br>    \begin{matrix}<br>    A &amp; t \<br>    v^T &amp; 1<br>    \end{matrix}<br>    \right]<br>$$</p>
-<p>虽然有9个元素，但是只有其比率有意义，所以自由度为8.可以由同面不共线的四组点算出。<br>因为射影变换不保平行的缘故，原先平行线相交的无穷远点（理想点）被映射到有限点，所以射影变换可以对消隐点建模（包括无穷远直线，很重要！）。<br>关于各变换不变量的表格：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/HeTrans.png" alt="img">  </p>
+<h2 id="基本针孔模型"><a href="#基本针孔模型" class="headerlink" title="基本针孔模型"></a>基本针孔模型</h2><p>考虑空间点到平面的投影，投影中心位于原点，图像平面为$Z=f$，即中心投影模型，如下图所示：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/pinhole2.png" alt="img"><br>那么根据相似三角形可以很快算出，点$(X,Y,Z)^T$被投影到$(fX/Z,fX/Y)^T$。<br>在这个投影模型下，投影中心称为<strong>光心</strong>，光心到图像平面的垂线称为<strong>主轴</strong>，交图像平面于<strong>主点</strong>，过相机中心且平行于图像平面的称为<strong>摄像机的主平面</strong>。其他的更复杂的模型延续这几个基本概念的定义。<br>上述投影在数学上用齐次坐标坐标表示如下：<br>$$<br>\left[<br>    \begin{matrix}<br>    fX \<br>    fY \<br>    Z<br>    \end{matrix}<br>\right]=<br>diag(f,f,1)\left[<br>    I|0<br>\right]<br>\left[<br>    \begin{matrix}<br>    X \<br>    Y\<br>    Z \<br>    1<br>    \end{matrix}<br>\right]<br>$$<br>现在，我们将投影过程写为：$x=PX$，其中P为3x4的摄像机矩阵，则以上中心投影模型的摄像机矩阵为：$P = diag(f,f,1)\left[I|0 \right]$。  </p>
 <hr>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42730997/article/details/114196218">CSDN</a>  </p>
+<h2 id="加入主点偏置"><a href="#加入主点偏置" class="headerlink" title="加入主点偏置"></a>加入主点偏置</h2><p>事实上，主点可能不在图像平面的原点，而是在$(p_x,p_y)$处，此时投影如下：<br>$$<br>(X,Y,Z)^T \to (fX/Z+p_x,fX/Y+p_y)^T<br>$$<br>若记<br>$$<br>K=<br>\left[<br>    \begin{matrix}<br>    f &amp; 0 &amp; p_x \<br>    0 &amp; f &amp; p_y\<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>\right]<br>$$<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/imagecoor.png" alt="img"><br>则此时的摄像机矩阵可以写为：<br>$$<br>x = K \left[ I|0 \right] X<br>$$<br>矩阵K称为摄像机标定矩阵，此时默认摄像机坐标系与世界坐标系重合。  </p>
+<hr>
+<h2 id="加入摄像机的旋转和平移"><a href="#加入摄像机的旋转和平移" class="headerlink" title="加入摄像机的旋转和平移"></a>加入摄像机的旋转和平移</h2><p>因为在上述简化模型中，投影的过程是将摄像机坐标系下的点投影到图像坐标系的过程，而当点是由世界坐标系坐标表示时，就需要先将其转化到摄像机坐标系下，这个过程是坐标系之间的变换，由旋转和平移矩阵连接。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/Rt.png" alt="img">  </p>
+<p>$$<br>X_{cam} = \left[<br>    \begin{matrix}<br>    R &amp; -R \hat{C} \<br>    0^T &amp; 1<br>    \end{matrix}<br>\right]<br>\left[<br>    \begin{matrix}<br>    X \<br>    Y \<br>    Z \<br>    1<br>    \end{matrix}<br>\right]<br>$$<br>其中$\hat{C}$是相机中心在世界坐标系下的坐标，R是一个表示世界坐标系中，摄像机坐标系方向的旋转矩阵。<br>与投影模型结合后，一种简洁的形式写作：$x = KR\left[I| \hat{C} \right]X$，这是针孔模型下的一般映射，K称为内参矩阵，有三个自由度：焦距与主点坐标（x，y），而R，$\hat{C}$是与摄像机位置相关的参数，称为摄像机外参。<br>方便起见，通常不显式写出摄像机中心的位置，而是用平移矩阵代替，是世界坐标的点到相机坐标系下的点：$X_{cam} = R X + t$，此时摄像机矩阵写为：$P = K\left[ R | t \right]$。  </p>
+<hr>
+<h2 id="推广到CCD摄像机"><a href="#推广到CCD摄像机" class="headerlink" title="推广到CCD摄像机"></a>推广到CCD摄像机</h2><p>CCD相机与上述模型的区别在于其像素单元可能不是正方形的，也就是说，它在x方向和y方向的焦距是不同的，我们考虑其内参矩阵：<br>$$<br>K =<br>\left[<br>    \begin{matrix}<br>    f_x &amp; s &amp; p_x \<br>    0 &amp; f_y &amp; p_y \<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>\right]<br>$$<br>其中，s是扭曲参数，大多数情况下取0，有时有特殊作用。<br>至此，我们得到了本篇讨论的摄像机矩阵的最终形态：$P = K\left[ R | t \right]$。<br>注意到，此时对于P的唯一约束是其左边3x3的矩阵是非奇异的，<strong>有限射影摄像机的摄像机矩阵的集合等于左边3x3的子矩阵为非奇异的3x4齐次矩阵构成的集合</strong>。  </p>
 
     </div>
 
@@ -290,13 +285,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/25/2DProjectGeometry-3/" rel="prev" title="2D射影几何与变换（3）">
-      <i class="fa fa-chevron-left"></i> 2D射影几何与变换（3）
+    <a href="/2021/03/12/2DProjectGeometry-4/" rel="prev" title="2D射影几何与变换（4）">
+      <i class="fa fa-chevron-left"></i> 2D射影几何与变换（4）
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/02/26/DacidMarr-md/" rel="next" title="David Marr-《视觉计算理论》-思想总结">
-      David Marr-《视觉计算理论》-思想总结 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -355,7 +347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2D%E5%B0%84%E5%BD%B1%E5%87%A0%E4%BD%95%E4%B8%8E%E5%8F%98%E6%8D%A2%EF%BC%882%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">2D射影几何与变换（2）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%84%E5%BD%B1%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">射影变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E7%BA%BF%E7%9A%84%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.1.</span> <span class="nav-text">直线的变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E6%9B%B2%E7%BA%BF%E7%9A%84%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.2.</span> <span class="nav-text">二次曲线的变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%9A%84%E5%B1%82%E6%AC%A1"><span class="nav-number">1.2.</span> <span class="nav-text">变换的层次</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E8%B7%9D%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.1.</span> <span class="nav-text">等距变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E4%BC%BC%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">相似变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.3.</span> <span class="nav-text">仿射变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%84%E5%BD%B1%E5%8F%98%E6%8D%A2-1"><span class="nav-number">1.2.4.</span> <span class="nav-text">射影变换</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E6%91%84%E5%83%8F%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">有限摄像机模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">1.1.</span> <span class="nav-text">三个基本坐标系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%92%88%E5%AD%94%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">基本针孔模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E4%B8%BB%E7%82%B9%E5%81%8F%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">加入主点偏置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E6%91%84%E5%83%8F%E6%9C%BA%E7%9A%84%E6%97%8B%E8%BD%AC%E5%92%8C%E5%B9%B3%E7%A7%BB"><span class="nav-number">1.4.</span> <span class="nav-text">加入摄像机的旋转和平移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E5%B9%BF%E5%88%B0CCD%E6%91%84%E5%83%8F%E6%9C%BA"><span class="nav-number">1.5.</span> <span class="nav-text">推广到CCD摄像机</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

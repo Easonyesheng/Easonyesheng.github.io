@@ -6,7 +6,7 @@
   <link href="http://northpointer.xyz/atom.xml" rel="self"/>
   
   <link href="http://northpointer.xyz/"/>
-  <updated>2021-03-16T03:32:19.662Z</updated>
+  <updated>2021-03-16T14:17:26.011Z</updated>
   <id>http://northpointer.xyz/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>摄像机模型（2） - 一般射影摄像机</title>
+    <link href="http://northpointer.xyz/2021/03/16/CameraModel-2/"/>
+    <id>http://northpointer.xyz/2021/03/16/CameraModel-2/</id>
+    <published>2021-03-16T13:47:25.000Z</published>
+    <updated>2021-03-16T14:17:26.011Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一般射影摄像机模型"><a href="#一般射影摄像机模型" class="headerlink" title="一般射影摄像机模型"></a>一般射影摄像机模型</h1><p>上一篇我们从针孔相机模型通过逐步放开约束最终得到仅有左边3x3子矩阵非奇异约束的摄像机矩阵，这篇文章则是将这个约束进一步放开，得到一个秩为3的3x4的矩阵，作为一般射影摄像机矩阵，并在该模型下，讨论矩阵元素与相机元素和成像元素的诸多联系。<br>若公式显示不全，请移步<a href="https://blog.csdn.net/weixin_42730997/article/details/114873339">CSDN</a></p><hr><h2 id="矩阵构造"><a href="#矩阵构造" class="headerlink" title="矩阵构造"></a>矩阵构造</h2><p>一般射影摄像机模型可以按照$P = \left[ M | P_4 \right]$来分块，M是3x3的矩阵，若它非奇异，则是有限摄像机。  </p><hr><h3 id="摄像机中心"><a href="#摄像机中心" class="headerlink" title="摄像机中心"></a>摄像机中心</h3><hr><h3 id="列向量"><a href="#列向量" class="headerlink" title="列向量"></a>列向量</h3><hr><h3 id="行向量"><a href="#行向量" class="headerlink" title="行向量"></a>行向量</h3><hr><h3 id="主平面"><a href="#主平面" class="headerlink" title="主平面"></a>主平面</h3><hr><h3 id="轴平面"><a href="#轴平面" class="headerlink" title="轴平面"></a>轴平面</h3><hr><h3 id="主点"><a href="#主点" class="headerlink" title="主点"></a>主点</h3><hr><h3 id="主轴向量"><a href="#主轴向量" class="headerlink" title="主轴向量"></a>主轴向量</h3>]]></content>
+    
+    
+    <summary type="html">计算机视觉中的多视图几何笔记</summary>
+    
+    
+    
+    <category term="博客" scheme="http://northpointer.xyz/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+    <category term="双目视觉" scheme="http://northpointer.xyz/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/"/>
+    
+  </entry>
+  
+  <entry>
     <title>摄像机模型（1）- 有限摄像机</title>
     <link href="http://northpointer.xyz/2021/03/15/CameraModel-1/"/>
     <id>http://northpointer.xyz/2021/03/15/CameraModel-1/</id>
     <published>2021-03-15T13:45:46.000Z</published>
-    <updated>2021-03-16T03:32:19.662Z</updated>
+    <updated>2021-03-16T13:48:50.250Z</updated>
     
     <content type="html"><![CDATA[<h1 id="有限摄像机模型"><a href="#有限摄像机模型" class="headerlink" title="有限摄像机模型"></a>有限摄像机模型</h1><p>摄像机是将三维世界中的点映射到二维世界的一种传感器，在齐次坐标坐标下，它可以表示为矩阵形式：秩为3的3x4矩阵。<br>本篇先从最简单的针孔摄像机模型开始，逐步将该模型一般化，得到带有一定约束的摄像机矩阵（左边3x3的子矩阵非奇异）– 有限摄像机模型。<br>在下一篇则是将这个非奇异约束去除，得到更一般的摄像机矩阵 – 一般射影摄像机模型。<br>若公式显示不全，请移步<a href="https://blog.csdn.net/weixin_42730997/article/details/114873339">CSDN</a></p><hr><h2 id="三个基本坐标系"><a href="#三个基本坐标系" class="headerlink" title="三个基本坐标系"></a>三个基本坐标系</h2><p>摄像机模型可以理解为在三个基本坐标系之间的变换，所以先介绍三个基本坐标系。  </p><ul><li><p>世界坐标系<br>物体在真实世界中的坐标，可以自己选择位置。  </p></li><li><p>相机坐标系<br>以相机光心为原点的坐标系。  </p></li><li><p>图像坐标系<br>图像平面所在的坐标系。  </p></li></ul><hr><h2 id="基本针孔模型"><a href="#基本针孔模型" class="headerlink" title="基本针孔模型"></a>基本针孔模型</h2><p>考虑空间点到平面的投影，投影中心位于原点，图像平面为$Z=f$，即中心投影模型，如下图所示：<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/pinhole2.png" alt="img"><br>那么根据相似三角形可以很快算出，点$(X,Y,Z)^T$被投影到$(fX/Z,fX/Y)^T$。<br>在这个投影模型下，投影中心称为<strong>光心</strong>，光心到图像平面的垂线称为<strong>主轴</strong>，交图像平面于<strong>主点</strong>，过相机中心且平行于图像平面的称为<strong>摄像机的主平面</strong>。其他的更复杂的模型延续这几个基本概念的定义。<br>上述投影在数学上用齐次坐标坐标表示如下：<br>$$<br>\left[<br>    \begin{matrix}<br>    fX \<br>    fY \<br>    Z<br>    \end{matrix}<br>\right]=<br>diag(f,f,1)\left[<br>    I|0<br>\right]<br>\left[<br>    \begin{matrix}<br>    X \<br>    Y\<br>    Z \<br>    1<br>    \end{matrix}<br>\right]<br>$$<br>现在，我们将投影过程写为：$x=PX$，其中P为3x4的摄像机矩阵，则以上中心投影模型的摄像机矩阵为：$P = diag(f,f,1)\left[I|0 \right]$。  </p><hr><h2 id="加入主点偏置"><a href="#加入主点偏置" class="headerlink" title="加入主点偏置"></a>加入主点偏置</h2><p>事实上，主点可能不在图像平面的原点，而是在$(p_x,p_y)$处，此时投影如下：<br>$$<br>(X,Y,Z)^T \to (fX/Z+p_x,fX/Y+p_y)^T<br>$$<br>若记<br>$$<br>K=<br>\left[<br>    \begin{matrix}<br>    f &amp; 0 &amp; p_x \<br>    0 &amp; f &amp; p_y\<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>\right]<br>$$<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/imagecoor.png" alt="img"><br>则此时的摄像机矩阵可以写为：<br>$$<br>x = K \left[ I|0 \right] X<br>$$<br>矩阵K称为摄像机标定矩阵，此时默认摄像机坐标系与世界坐标系重合。  </p><hr><h2 id="加入摄像机的旋转和平移"><a href="#加入摄像机的旋转和平移" class="headerlink" title="加入摄像机的旋转和平移"></a>加入摄像机的旋转和平移</h2><p>因为在上述简化模型中，投影的过程是将摄像机坐标系下的点投影到图像坐标系的过程，而当点是由世界坐标系坐标表示时，就需要先将其转化到摄像机坐标系下，这个过程是坐标系之间的变换，由旋转和平移矩阵连接。<br><img src="http://easonzhangyesheng.gitee.io/imgnorthpointer/MVCV/CameraModel/Rt.png" alt="img">  </p><p>$$<br>X_{cam} = \left[<br>    \begin{matrix}<br>    R &amp; -R \hat{C} \<br>    0^T &amp; 1<br>    \end{matrix}<br>\right]<br>\left[<br>    \begin{matrix}<br>    X \<br>    Y \<br>    Z \<br>    1<br>    \end{matrix}<br>\right]<br>$$<br>其中$\hat{C}$是相机中心在世界坐标系下的坐标，R是一个表示世界坐标系中，摄像机坐标系方向的旋转矩阵。<br>与投影模型结合后，一种简洁的形式写作：$x = KR\left[I| \hat{C} \right]X$，这是针孔模型下的一般映射，K称为内参矩阵，有三个自由度：焦距与主点坐标（x，y），而R，$\hat{C}$是与摄像机位置相关的参数，称为摄像机外参。<br>方便起见，通常不显式写出摄像机中心的位置，而是用平移矩阵代替，是世界坐标的点到相机坐标系下的点：$X_{cam} = R X + t$，此时摄像机矩阵写为：$P = K\left[ R | t \right]$。  </p><hr><h2 id="推广到CCD摄像机"><a href="#推广到CCD摄像机" class="headerlink" title="推广到CCD摄像机"></a>推广到CCD摄像机</h2><p>CCD相机与上述模型的区别在于其像素单元可能不是正方形的，也就是说，它在x方向和y方向的焦距是不同的，我们考虑其内参矩阵：<br>$$<br>K =<br>\left[<br>    \begin{matrix}<br>    f_x &amp; s &amp; p_x \<br>    0 &amp; f_y &amp; p_y \<br>    0 &amp; 0 &amp; 1<br>    \end{matrix}<br>\right]<br>$$<br>其中，s是扭曲参数，大多数情况下取0，有时有特殊作用。<br>至此，我们得到了本篇讨论的摄像机矩阵的最终形态：$P = K\left[ R | t \right]$。<br>注意到，此时对于P的唯一约束是其左边3x3的矩阵是非奇异的，<strong>有限射影摄像机的摄像机矩阵的集合等于左边3x3的子矩阵为非奇异的3x4齐次矩阵构成的集合</strong>。  </p>]]></content>
     

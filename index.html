@@ -1,1143 +1,444 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.0.2">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="http://easonzhangyesheng.gitee.io/imgnorthpointer/icon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="http://easonzhangyesheng.gitee.io/imgnorthpointer/icon.ico">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"northpointer.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="二十一世纪漫游指北">
-<meta property="og:type" content="website">
-<meta property="og:title" content="指北集">
-<meta property="og:url" content="http://northpointer.xyz/index.html">
-<meta property="og:site_name" content="指北集">
-<meta property="og:description" content="二十一世纪漫游指北">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="Eason Zhang">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://northpointer.xyz/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>指北集</title>
+  <title>Eason Zhang</title>
   
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<link rel="alternate" href="/atom.xml" title="指北集" type="application/atom+xml">
+  <meta name="author" content="Eason Zhang">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-    <a target="_blank" rel="noopener" href="https://github.com/Easonyesheng" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">指北集</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">二十一世纪漫游指北</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Eason Zhang</name>
+              </p>
+              <p>I am a M.D. student in Biomedical Engineering at <a href="https://imr.sjtu.edu.cn/en/">Institute of Medical Robotics</a>, Shanghai Jiao Tong university, advised by Prof. <a href="https://imr.sjtu.edu.cn/en/po_adj/571.html">Xu Zhao</a> and Prof. <a href="https://imr.sjtu.edu.cn/en/po_adj/996.html"> Dahong Qian</a>.
+              </p>
+              <p>
+                Before that I received my bachelor's degree from School of Biomedical Engineering, Shanghai Jiao Tong University. 
+              </p>
+              <p style="text-align:center">
+                <a href="mailto:preacher@sjtu.edu.cn">Email</a> &nbsp/&nbsp
+                <!-- <a href="data/JonBarron-CV.pdf">CV</a> &nbsp/&nbsp -->
+                <!-- <a href="data/JonBarron-bio.txt">Bio</a> &nbsp/&nbsp -->
+                <!-- <a href="https://scholar.google.com/citations?hl=en&user=jktWnL8AAAAJ">Google Scholar</a> &nbsp/&nbsp -->
+                <!-- <a href="https://twitter.com/jon_barron">Twitter</a> &nbsp/&nbsp -->
+                <a href="https://github.com/Easonyesheng">Github</a>
+              </p>
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <a href="images/Avator.jpg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/JonBarron_circle.jpg" class="hoverZoomLink"></a>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Research</heading>
+              <p>
+                I'm interested in computer vision, SLAM and 3D reconstruction.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2020/08/13/Principle_of_Calibration_and_Implemention/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/13/Principle_of_Calibration_and_Implemention/" class="post-title-link" itemprop="url">基于python-opencv的相机标定原理及实现</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <i class="fa fa-thumb-tack"></i>
-            <font color=7D26CD>置顶</font>
-            <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-13 15:48:08" itemprop="dateCreated datePublished" datetime="2020-08-13T15:48:08+08:00">2020-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-10 21:22:06" itemprop="dateModified" datetime="2020-10-10T21:22:06+08:00">2020-10-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>原理详细，代码规范，走过路过，不容错过。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/13/Principle_of_Calibration_and_Implemention/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/28/Calib_Conic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/28/Calib_Conic/" class="post-title-link" itemprop="url">张氏标定法与绝对二次曲线</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-28 21:47:25" itemprop="dateCreated datePublished" datetime="2021-03-28T21:47:25+08:00">2021-03-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-29 10:03:09" itemprop="dateModified" datetime="2021-03-29T10:03:09+08:00">2021-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>相机标定原理</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/28/Calib_Conic/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/28/Involution/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/28/Involution/" class="post-title-link" itemprop="url">Involution</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-28 21:47:25" itemprop="dateCreated datePublished" datetime="2021-03-28T21:47:25+08:00">2021-03-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-20 11:56:36" itemprop="dateModified" datetime="2021-05-20T11:56:36+08:00">2021-05-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>新算子！</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/28/Involution/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/19/Calibration/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/19/Calibration/" class="post-title-link" itemprop="url">相机标定的原理、实践与难点</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-19 21:47:25 / 修改时间：17:25:48" itemprop="dateCreated datePublished" datetime="2021-03-19T21:47:25+08:00">2021-03-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>相机标定大总结</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/19/Calibration/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/16/CameraModel-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/16/CameraModel-2/" class="post-title-link" itemprop="url">摄像机模型（2） - 一般射影摄像机</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-16 21:47:25" itemprop="dateCreated datePublished" datetime="2021-03-16T21:47:25+08:00">2021-03-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-26 22:32:38" itemprop="dateModified" datetime="2021-03-26T22:32:38+08:00">2021-03-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计算机视觉中的多视图几何笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/16/CameraModel-2/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/15/CameraModel-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/15/CameraModel-1/" class="post-title-link" itemprop="url">摄像机模型（1）- 有限摄像机</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-15 21:45:46" itemprop="dateCreated datePublished" datetime="2021-03-15T21:45:46+08:00">2021-03-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-16 21:48:50" itemprop="dateModified" datetime="2021-03-16T21:48:50+08:00">2021-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计算机视觉中的多视图几何笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/15/CameraModel-1/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/12/2DProjectGeometry-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/12/2DProjectGeometry-4/" class="post-title-link" itemprop="url">2D射影几何与变换（4）</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-12 20:48:57 / 修改时间：14:44:56" itemprop="dateCreated datePublished" datetime="2021-03-12T20:48:57+08:00">2021-03-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计算机视觉中的多视图几何笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/12/2DProjectGeometry-4/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/03/11/3DProjectGeometry-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/11/3DProjectGeometry-0/" class="post-title-link" itemprop="url">3D射影几何与变换（1）</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-11 20:48:57" itemprop="dateCreated datePublished" datetime="2021-03-11T20:48:57+08:00">2021-03-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-13 12:20:03" itemprop="dateModified" datetime="2021-03-13T12:20:03+08:00">2021-03-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计算机视觉中的多视图几何笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/11/3DProjectGeometry-0/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://northpointer.xyz/2021/02/26/DacidMarr-md/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Eason Zhang">
-      <meta itemprop="description" content="二十一世纪漫游指北">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="指北集">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/26/DacidMarr-md/" class="post-title-link" itemprop="url">David Marr-《视觉计算理论》-思想总结</a>
-        </h2>
-
-        <div class="post-meta">
-        
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-26 22:23:00" itemprop="dateCreated datePublished" datetime="2021-02-26T22:23:00+08:00">2021-02-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-27 19:49:35" itemprop="dateModified" datetime="2021-02-27T19:49:35+08:00">2021-02-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>关于D. Marr的计算机视觉整体思想</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/26/DacidMarr-md/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
+      <!-- paper -->
+      <tr >
+        <td style="padding:20px;width:25%;vertical-align:middle">
+          <div class="one">
+            <img src='images/CCS.jpg' width="160">
           </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Eason Zhang"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Eason Zhang</p>
-  <div class="site-description" itemprop="description">二十一世纪漫游指北</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">21</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">3</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://https//github.com/Easonyesheng" title="GitHub → https:&#x2F;&#x2F;https:&#x2F;&#x2F;github.com&#x2F;Easonyesheng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:easonzhangyesheng@gmail.com" title="E-Mail → mailto:easonzhangyesheng@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://weibo.com/p/1005056828848313/home?from=page_100505&mod=TAB&is_all=1#place" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;p&#x2F;1005056828848313&#x2F;home?from&#x3D;page_100505&amp;mod&#x3D;TAB&amp;is_all&#x3D;1#place" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
-      </span>
-  </div>
+        </td>
+        <td style="padding:20px;width:75%;vertical-align:middle">
+          <a href="https://zju3dv.github.io/manhattan_sdf/">
+            <papertitle>Learning-Based Distortion Correction and Feature Detection for High Precision and Robust Camera Calibration</papertitle>
+          </a>
+          <strong>Yeshang Zhang</strong>,
+          <a>Xu Zhao</a>,
+          <a>Dahong Qian</a>
+          <br>
+          <em>RA-L & IROS</em>, 2022
+          <br>
+          <a href="https://ieeexplore.ieee.org/document/9834080">paper</a>
+          /
+          <a href="https://github.com/Easonyesheng/CCS">code</a>
+          <p></p>
+        </td>
+      </tr> 
 
 
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">
-  
-  &copy; 2020 – 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Eason Zhang</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-          load: ['[tex]/mhchem'],
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-          packages: {'[+]': ['mhchem']},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
-
-  
-
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td style="padding:0px">
+              <br>
+              <p style="text-align:right;font-size:small;">
+                Feel free to steal this website's <a href="https://github.com/jonbarron/jonbarron_website">source code</a>,
+                just add a link back to my website.
+                <strong>Do not</strong> scrape the HTML from the deployed instance of this website at http://jonbarron.info,
+                as it includes analytics tags that you do not want on your own website &mdash; use the github code instead.
+                If you'd like your new page linked to from here, submit a pull request adding yourself.
+		<a href="https://vjysd.github.io/">&#10025;</a>
+                <a href="https://www.amishmittal.com/">&#10025;</a>
+                <a href="https://rishabkhincha.github.io/">&#10025;</a>
+                <a href="https://yektademirci.com/">&#10025;</a>
+                <a href="https://yangyulin.github.io/">&#10025;</a>
+                <a href="https://www.cs.ubc.ca/~pbateni/">&#10025;</a>
+                <a href="https://aliosmanulusoy.github.io/">&#10025;</a>
+                <a href="https://cs.stanford.edu/~poole/">&#10025;</a>
+                <a href="http://www.cs.berkeley.edu/~akar/">&#10025;</a>
+                <a href="http://www.eecs.berkeley.edu/~biancolin">&#10025;</a>
+                <a href="http://www.rossgirshick.info/">&#10025;</a>
+                <a href="http://www.cs.cmu.edu/~igkioule/">&#10025;</a>
+                <a href="http://kelvinxu.github.io/">&#10025;</a>
+                <a href="http://imagine.enpc.fr/~groueixt/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~cbfinn/">&#10025;</a>
+                <a href="http://disi.unitn.it/~nabi/">&#10025;</a>
+                <a href="http://changyeobshin.com/">&#10025;</a>
+                <a href="https://mbanani.github.io/">&#10025;</a>
+                <a href="https://aseembits93.github.io">&#10025;</a>
+                <a href="http://fuwei.us/">&#10025;</a>
+                <a href="http://www-bcf.usc.edu/~iacopoma/">&#10025;</a>
+                <a href="https://lorisbaz.github.io/">&#10025;</a>
+                <a href="https://dplarson.info/">&#10025;</a>
+                <a href="http://chapiro.net/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~vitchyr/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~kellman/">&#10025;</a>
+                <a href="http://www0.cs.ucl.ac.uk/staff/C.Godard/">&#10025;</a>
+                <a href="http://www.cs.toronto.edu/~byang/">&#10025;</a>
+                <a href="http://people.kyb.tuebingen.mpg.de/harmeling/">&#10025;</a>
+                <a href="https://prakashmurali.bitbucket.io/">&#10025;</a>
+                <a href="http://www.cs.bham.ac.uk/~exa371/">&#10025;</a>
+                <a href="http://prosello.com/">&#10025;</a>
+                <a href="http://www.ee.ucr.edu/~nmithun/">&#10025;</a>
+                <a href="https://rmullapudi.bitbucket.io/">&#10025;</a>
+                <a href="http://www.briangauch.com/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~coline/">&#10025;</a>
+                <a href="https://www.andrew.cmu.edu/user/sjayasur/website.html">&#10025;</a>
+                <a href="http://www.eecs.berkeley.edu/~rakelly/">&#10025;</a>
+                <a href="https://gkioxari.github.io/">&#10025;</a>
+                <a href="http://ai.stanford.edu/~hsong/">&#10025;</a>
+                <a href="http://www.ee.ucr.edu/~mbappy/">&#10025;</a>
+                <a href="http://adithyamurali.com/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~khoury/">&#10025;</a>
+                <a href="https://prashanthtk.github.io/">&#10025;</a>
+                <a href="http://tomhenighan.com/">&#10025;</a>
+                <a href="http://mbchang.github.io/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~haarnoja/">&#10025;</a>
+                <a href="http://web.stanford.edu/~sfort1/">&#10025;</a>
+                <a href="http://www.arkin.xyz/">&#10025;</a>
+                <a href="http://i-am-karan-singh.github.io/">&#10025;</a>
+                <a href="https://pxlong.github.io/">&#10025;</a>
+                <a href="https://dheeraj2444.github.io/">&#10025;</a>
+                <a href="https://fabienbaradel.github.io/">&#10025;</a>
+                <a href="https://ankitdhall.github.io/">&#10025;</a>
+                <a href="http://nafiz.ml/">&#10025;</a>
+                <a href="http://www.cs.cmu.edu/~aayushb">&#10025;</a>
+                <a href="http://bjornstenger.github.io/">&#10025;</a>
+                <a href="http://users.eecs.northwestern.edu/~mif365/">&#10025;</a>
+                <a href="https://www.macs.hw.ac.uk/~ic14/">&#10025;</a>
+                <a href="https://ai.stanford.edu/~kaidicao/">&#10025;</a>
+                <a href="http://hengfan.byethost7.com/">&#10025;</a>
+                <a href="https://reyhaneaskari.github.io/">&#10025;</a>
+                <a href="https://tianheyu927.github.io/">&#10025;</a>
+                <a href="http://people.csail.mit.edu/janner/">&#10025;</a>
+                <a href="http://www.sjoerdvansteenkiste.com/">&#10025;</a>
+                <a href="http://joaoloula.github.io/">&#10025;</a>
+                <a href="https://bhairavmehta95.github.io/">&#10025;</a>
+                <a href="https://palmieri.github.io/">&#10025;</a>
+                <a href="https://psuriana.github.io/">&#10025;</a>
+                <a href="http://yushi2.web.engr.illinois.edu/">&#10025;</a>
+                <a href="http://ruthcfong.github.io/">&#10025;</a>
+                <a href="https://shraman-rc.github.io/">&#10025;</a>
+                <a href="http://rahulgarg.com/">&#10025;</a>
+                <a href="http://www.cs.cmu.edu/~inigam/">&#10025;</a>
+                <a href="http://djstrouse.com/">&#10025;</a>
+                <a href="https://lekhamohan.github.io/">&#10025;</a>
+                <a href="https://avijit9.github.io/">&#10025;</a>
+                <a href="http://www.seas.ucla.edu/~sahba/">&#10025;</a>
+                <a href="https://pages.jh.edu/~falambe1/">&#10025;</a>
+                <a href="http://www.dcc.fc.up.pt/~vitor.cerqueira/">&#10025;</a>
+                <a href="https://bmild.github.io/">&#10025;</a>
+                <a href="https://web.eecs.umich.edu/~subh/">&#10025;</a>
+                <a href="http://www.cs.utexas.edu/~pgoyal/">&#10025;</a>
+                <a href="http://www.eecs.wsu.edu/~fchowdhu/">&#10025;</a>
+                <a href="https://aarzchan.github.io/">&#10025;</a>
+                <a href="https://www.seas.upenn.edu/~oleh/">&#10025;</a>
+                <a href="http://shamak.github.io/">&#10025;</a>
+                <a href="http://jianfeng.us/">&#10025;</a>
+                <a href="https://pulkitkumar95.github.io/">&#10025;</a>
+                <a href="https://epiception.github.io/">&#10025;</a>
+                <a href="https://weimengpu.github.io/">&#10025;</a>
+                <a href="http://users.ices.utexas.edu/~faraz/">&#10025;</a>
+                <a href="https://vitorgodeiro.github.io/">&#10025;</a>
+                <a href="http://cgm.technion.ac.il/people/Roey/">&#10025;</a>
+                <a href="https://mancinimassimiliano.github.io/">&#10025;</a>
+                <a href="https://roshanjrajan.me/">&#10025;</a>
+                <a href="http://irc.cs.sdu.edu.cn/~qingnan/">&#10025;</a>
+                <a href="http://individual.utoronto.ca/yuenj/">&#10025;</a>
+                <a href="https://akhileshgotmare.github.io/">&#10025;</a>
+                <a href="http://vllab.ucmerced.edu/nakul/">&#10025;</a>
+                <a href="https://hasibzunair.github.io/">&#10025;</a>
+                <a href="http://dalezhou.com/">&#10025;</a>
+                <a href="https://abhoi.github.io/">&#10025;</a>
+                <a href="https://www.cse.unr.edu/~jyi/">&#10025;</a>
+                <a href="http://www.liuzhaolun.com/">&#10025;</a>
+                <a href="https://abhisheknaik.me/">&#10025;</a>
+                <a href="https://cfernandezlab.github.io/">&#10025;</a>
+                <a href="https://aasharma90.github.io/">&#10025;</a>
+                <a href="https://kdizon.github.io/">&#10025;</a>
+                <a href="https://www.cse.wustl.edu/~zhihao.xia/">&#10025;</a>
+                <a href="http://mmozes.net/">&#10025;</a>
+                <a href="https://kpertsch.github.io/">&#10025;</a>
+                <a href="http://xiatianpei.com/">&#10025;</a>
+                <a href="https://nsrishankar.github.io/">&#10025;</a>
+                <a href="http://xujuefei.com/">&#10025;</a>
+                <a href="https://www.cs.rochester.edu/u/lchen63/">&#10025;</a>
+                <a href="http://deyachatterjee.github.io/">&#10025;</a>
+                <a href="http://hossein1387.github.io/index.html">&#10025;</a>
+                <a href="https://zx007zls.github.io/">&#10025;</a>
+                <a href="http://people.eecs.berkeley.edu/~nol/">&#10025;</a>
+                <a href="http://www.cs.princeton.edu/~jw60/">&#10025;</a>
+                <a href="https://cseweb.ucsd.edu/~owen/">&#10025;</a>
+                <a href="https://subhajitchaudhury.github.io/">&#10025;</a>
+                <a href="https://sandarshp.github.io/">&#10025;</a>
+                <a href="https://medhini.github.io/">&#10025;</a>
+                <a href="http://cindyxinyiwang.github.io/">&#10025;</a>
+                <a href="https://lasirenashann.github.io/">&#10025;</a>
+                <a href="http://ambuj.se/">&#10025;</a>
+                <a href="http://kylehsu.me/">&#10025;</a>
+                <a href="https://ujjwal95.github.io/">&#10025;</a>
+                <a href="https://aditya5558.github.io/">&#10025;</a>
+                <a href="http://www.majumderb.com/">&#10025;</a>
+                <a href="http://ylqiao.net/">&#10025;</a>
+                <a href="https://xiaochunliu.github.io/">&#10025;</a>
+                <a href="https://dhawgupta.github.io/">&#10025;</a>
+                <a href="http://cliu.info/">&#10025;</a>
+                <a href="https://taochenshh.github.io/">&#10025;</a>
+                <a href="http://www-scf.usc.edu/~ayushj/">&#10025;</a>
+                <a href="https://zexuehe.github.io/">&#10025;</a>
+                <a href="https://ofkar.github.io/">&#10025;</a>
+                <a href="https://amir-arsalan.github.io/">&#10025;</a>
+                <a href="https://vinamrabenara.github.io/">&#10025;</a>
+                <a href="https://likojack.bitbucket.io/">&#10025;</a>
+                <a href="http://www-personal.umich.edu/~zeyu/">&#10025;</a>
+                <a href="https://utkarshojha.github.io/">&#10025;</a>
+                <a href="https://fahmidmorshed.github.io/">&#10025;</a>
+                <a href="https://www.cs.ubc.ca/~setarehc/">&#10025;</a>
+                <a href="http://viveksolanki.com/">&#10025;</a>
+                <a href="http://webdiis.unizar.es/~alcolea/">&#10025;</a>
+                <a href="http://www.songyaojiang.com/">&#10025;</a>
+                <a href="https://www.csee.umbc.edu/~bhp1/">&#10025;</a>
+                <a href="http://acl.mit.edu/people">&#10025;</a>
+                <a href="https://vignanv.com/">&#10025;</a>
+                <a href="https://liuyicun.me/">&#10025;</a>
+                <a href="https://heyuanmingong.github.io/">&#10025;</a>
+                <a href="https://abhishekaich27.github.io/">&#10025;</a>
+                <a href="https://www.cs.ubc.ca/~saeidnp/">&#10025;</a>
+                <a href="https://uuujf.github.io/">&#10025;</a>
+                <a href="https://csjcai.github.io/">&#10025;</a>
+                <a href="https://iphyer.github.io/Mingren_Website/">&#10025;</a>
+                <a href="https://binzhubz.github.io/">&#10025;</a>
+                <a href="https://steinar.dev/">&#10025;</a>
+                <a href="https://tnq177.github.io/">&#10025;</a>
+                <a href="https://jonathan-schwarz.github.io/">&#10025;</a>
+                <a href="http://www.ronnieclark.co.uk/">&#10025;</a>
+                <a href="http://www.aparnadhinakaran.com/">&#10025;</a>
+                <a href="https://zjysteven.github.io/">&#10025;</a>
+                <a href="http://aakash30jan.github.io/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~shelhamer/">&#10025;</a>
+                <a href="https://junaidcs032.github.io/">&#10025;</a>
+                <a href="https://liangxuy.github.io/">&#10025;</a>
+                <a href="http://www.public.asu.edu/~ssarka18/">&#10025;</a>
+                <a href="https://www.cs.toronto.edu/~jennachoi/">&#10025;</a>
+                <a href="https://amankhullar.github.io/">&#10025;</a>
+                <a href="https://vijayvee.github.io/">&#10025;</a>
+                <a href="https://anmolgoel.dev/">&#10025;</a>
+                <a href="https://chanh.ee/">&#10025;</a>
+                <a href="https://jefflai108.github.io/">&#10025;</a>
+                <a href="https://pvskand.github.io/">&#10025;</a>
+                <a href="https://ariostgx.github.io/website/">&#10025;</a>
+                <a href="https://www.cs.utexas.edu/~shreyd/">&#10025;</a>
+                <a href="https://www.cedrick.ai/">&#10025;</a>
+                <a href="https://onlytailei.github.io/">&#10025;</a>
+                <a href="https://people.cs.vt.edu/liminyang/">&#10025;</a>
+                <a href="https://alexander-kirillov.github.io/">&#10025;</a>
+                <a href="https://sites.cs.ucsb.edu/~yanju/">&#10025;</a>
+                <a href="https://www.cct.lsu.edu/~cliu/">&#10025;</a>
+                <a href="https://sid2697.github.io/">&#10025;</a>
+                <a href="https://brendonjeromebutler.com/">&#10025;</a>
+                <a href="https://bthananjeyan.github.io/">&#10025;</a>
+                <a href="https://leonidk.com/">&#10025;</a>
+                <a href="http://bopeng.space/">&#10025;</a>
+                <a href="https://gautamigolani.github.io/">&#10025;</a>
+                <a href="https://rohitrango.github.io/">&#10025;</a>
+                <a href="https://prithv1.github.io/">&#10025;</a>
+                <a href="https://www.idiap.ch/~tpereira/">&#10025;</a>
+                <a href="https://felipefelixarias.github.io/">&#10025;</a>
+                <a href="https://sophieschau.github.io/">&#10025;</a>
+                <a href="https://wensun.github.io/">&#10025;</a>
+                <a href="http://cs.umanitoba.ca/~kumarkm/">&#10025;</a>
+                <a href="https://sourav-roni.github.io/">&#10025;</a>
+                <a href="https://parskatt.github.io/">&#10025;</a>
+                <a href="https://rauldiaz.github.io/">&#10025;</a>
+                <a href="https://uzeful.github.io/">&#10025;</a>
+                <a href="https://roeiherz.github.io/">&#10025;</a>
+                <a href="http://relh.net/">&#10025;</a>
+                <a href="https://ars-ashuha.ru/">&#10025;</a>
+                <a href="https://prieuredesion.github.io/">&#10025;</a>
+                <a href="https://tsujuifu.github.io/">&#10025;</a>
+                <a href="https://pranoy-k.github.io/website/">&#10025;</a>
+                <a href="https://xiaoleiz.github.io/">&#10025;</a>
+                <a href="https://users.ece.cmu.edu/~bahn/">&#10025;</a>
+                <a href="http://eracah.github.io/">&#10025;</a>
+                <a href="https://adityakusupati.github.io/">&#10025;</a>
+                <a href="https://agadetsky.github.io/">&#10025;</a>
+                <a href="https://coh1211.github.io/">&#10025;</a>
+                <a href="https://people.eecs.berkeley.edu/~kevinlin/">&#10025;</a>
+                <a href="https://bucherb.github.io/">&#10025;</a>
+                <a href="https://naman-ntc.github.io/">&#10025;</a>
+                <a href="https://nicolay-r.github.io/">&#10025;</a>
+                <a href="https://sakshambassi.github.io/">&#10025;</a>
+                <a href="https://maheshmohanmr.github.io/publications/">&#10025;</a>
+                <a href="http://byang.org/">&#10025;</a>
+                <a href="https://sylqiu.github.io/">&#10025;</a>
+                <a href="https://www.cc.gatech.edu/~sfoley30/">&#10025;</a>
+                <a href="https://crockwell.github.io/">&#10025;</a>
+                <a href="https://kritikalcoder.github.io/">&#10025;</a>
+                <a href="https://isrugeek.github.io/">&#10025;</a>
+                <a href="https://wei-ying.net/">&#10025;</a>
+                <a href="http://people.csail.mit.edu/liuyingcheng/">&#10025;</a>
+                <a href="https://itsreddy.github.io/">&#10025;</a>
+                <a href="https://aditimavalankar.github.io">&#10025;</a>
+                <a href="https://www.cs.ubc.ca/~zhenanf/">&#10025;</a>
+                <a href="https://trinkle23897.github.io/cv/">&#10025;</a>
+                <a href="https://tgangwani.github.io/">&#10025;</a>
+                <a href="https://hannahlawrence.github.io/">&#10025;</a>
+                <a href="http://bingxu.tech/">&#10025;</a>
+                <a href="http://apjacob.me/">&#10025;</a>
+                <a href="https://www.ee.iitb.ac.in/student/~krishnasubramani/">&#10025;</a>
+                <a href="https://gowthamkuntumalla.github.io/">&#10025;</a>
+                <a href="https://dkkim93.github.io/">&#10025;</a>
+                <a href="https://chaitanyamalaviya.github.io/">&#10025;</a>
+                <a href="https://daochenw.github.io/">&#10025;</a>
+                <a href="https://acvictor.github.io/">&#10025;</a>
+                <a href="https://tarund1996.github.io/">&#10025;</a>
+                <a href="http://www-personal.umich.edu/~belz/">&#10025;</a>
+                <a href="http://lauredelisle.com/">&#10025;</a>
+                <a href="https://tsly123.github.io/">&#10025;</a>
+                <a href="https://vanditg.github.io/">&#10025;</a>
+                <a href="https://nhoma.github.io/">&#10025;</a>
+                <a href="http://www.pedro.opinheiro.com/">&#10025;</a>
+                <a href="https://suvan.sh/">&#10025;</a>
+                <a href="https://www.diptanu.com/">&#10025;</a>
+                <a href="https://yimengli46.github.io/">&#10025;</a>
+                <a href="https://gauravparmar.com/">&#10025;</a>
+                <a href="https://cchoquette.github.io/">&#10025;</a>
+                <a href="https://psyche-mia.github.io/">&#10025;</a>
+                <a href="https://mvp18.github.io/">&#10025;</a>
+                <a href="https://markfzp.github.io/">&#10025;</a>
+                <a href="https://theultramarine19.github.io/">&#10025;</a>
+                <a href="https://sairajk.github.io/">&#10025;</a>
+                <a href="https://paritoshparmar.github.io/">&#10025;</a>
+                <a href="https://purvak-l.github.io/">&#10025;</a>
+                <a href="https://davideabati.info/">&#10025;</a>
+                <a href="https://ethanperez.net/">&#10025;</a>
+                <a href="http://mdai.me/">&#10025;</a>
+                <a href="https://nitish-nagesh.github.io/">&#10025;</a>
+                <a href="https://duroz.github.io/">&#10025;</a>
+                <a href="http://people.uncw.edu/dogang/">&#10025;</a>
+                <a href="http://hal9000.space">&#10025;</a>
+                <a href="http://web.stanford.edu/~yjiang05/">&#10025;</a>
+                <a href="https://pratulsrinivasan.github.io/">&#10025;</a>
+                <a href="http://linuxdeveloper.io">&#10025;</a>
+                <a href="http://umiacs.umd.edu/~kdbrant">&#10025;</a>
+                <a href="https://adityassrana.github.io/blog/about">&#10025;</a>
+                <a href="https://mpalrocks.github.io/">&#10025;</a>
+                <a href="https://victor7246.github.io/">&#10025;</a>
+                <a href="https://www.haozhu-wang.com/">&#10025;</a>
+                <a href="https://rajatjaiswal.me/">&#10025;</a>
+                <a href="https://senya-ashukha.github.io/">&#10025;</a>
+                <a href="https://qiminchen.github.io/">&#10025;</a>
+                <a href="https://mark12ding.github.io/">&#10025;</a>
+                <a href="https://zsb87.github.io/">&#10025;</a>
+                <a href="https://yashbhalgat.github.io/">&#10025;</a>
+                <a href="https://r0cketr1kky.github.io/">&#10025;</a>
+                <a href="https://jaydeepborkar.github.io/">&#10025;</a>
+                <a href="https://lidq92.github.io/">&#10025;</a>
+                <a href="https://statho.github.io/">&#10025;</a>
+                <a href="https://ankit-kaul.github.io/">&#10025;</a>
+                <a href="https://jlidard.github.io/">&#10025;</a>
+                <a href="http://harshpanwar.me/">&#10025;</a>
+                <a href="https://c0ldstudy.github.io/about/">&#10025;</a>
+                <a href="https://pro-vider.github.io/personal-website/">&#10025;</a>
+                <a href="http://avinashpaliwal.com/">&#10025;</a>
+                <a href="https://soham-official.github.io/portfolio/">&#10025;</a>
+                <a href="https://cdmdc.github.io/">&#10025;</a>
+                <a href="http://www.wisdom.weizmann.ac.il/~/assafsho/">&#10025;</a>
+                <a href="https://yotamnitzan.github.io/">&#10025;</a>
+                <a href="https://www.zijianwang.me/">&#10025;</a>
+                <a href="https://people.rit.edu/hv8322/">&#10025;</a>
+                <a href="https://ilyac.info/">&#10025;</a>
+                <a href="https://tamarott.github.io/">&#10025;</a>
+                <a href="https://www.cmlab.csie.ntu.edu.tw/~yulunliu/">&#10025;</a>
+                <a href="https://stanford.edu/~amywang1/">&#10025;</a>
+                <a href="https://g1910.github.io/">&#10025;</a>
+                <a href="http://ozzie00.github.io/">&#10025;</a>
+                <a href="http://xiomarag.github.io">&#10025;</a>
+                <a href="http://plalsanjay.github.io">&#10025;</a>
+                <a href="https://vr25.github.io/">&#10025;</a>
+                <a href="https://vishal-keshav.github.io">&#10025;</a>
+                <a href="https://zhihualiued.github.io">&#10025;</a>
+                <a href="https://lczong.github.io/">&#10025;</a>
+                <a href="https://timkimd.github.io/">&#10025;</a>
+		            <a href="https://hyekangjoo.github.io/">&#10025;</a>
+		            <a href="https://nivha.github.io/">&#10025;</a>
+		            <a href="https://litun5315.github.io/">&#10025;</a>
+		            <a href="https://pursuerchen.github.io/">&#10025;</a>
+		            <a href="https://shubhamdongriyal.github.io/Homepage/">&#10025;</a>
+		            <a href="https://digantamisra98.github.io/">&#10025;</a>
+		            <a href="https://zhunzhong.com/">&#10025;</a>
+		            <a href="https://web.mit.edu/bauza/www/">&#10025;</a>
+		            <a href="https://shjung13.github.io">&#10025;</a>
+		            <a href="https://analogicalnexus.github.io">&#10025;</a>
+		            <a href="http://yjzheng.com">&#10025;</a>
+		            <a href="http://kiranramnath007.github.io">&#10025;</a>
+		      	    <a href="https://fdlandi.github.io/">&#10025;</a>
+		      	    <a href="https://sherrycattt.github.io/">&#10025;</a>
+		            <a href="http://petersen.ai">&#10025;</a>
+		            <a href="https://habibslim.github.io/">&#10025;</a>
+                <a href="https://rsk97.github.io/">&#10025;</a>
+		            <a href="https://leoshine.github.io/">&#10025;</a>
+                <a href="https://pierbeneventano.github.io/">&#10025;</a>
+                <a href="https://tonmoay.de/">&#10025;</a>
+                <a href="https://hsjang.com/">&#10025;</a>
+                <a href="http://alexanderli.com/">&#10025;</a>		      
+		<a href="https://gabeur.github.io/">&#10025;</a>
+		<a href="https://asaran.github.io/">&#10025;</a>
+		<a href="https://stevejayh.github.io/">&#10025;</a>
+	      	<a href="https://atfortes.github.io/">&#10025;</a>
+	        <a href="https://alexj94.github.io/">&#10025;</a>
+		<a href="https://jiaxiaosong1002.github.io/">&#10025;</a>
+		<a href="https://imethanlee.github.io/">&#10025;</a>
+		<a href="https://mirmix.github.io/">&#10025;</a>
+		<a href="http://jiayisu.com/">&#10025;</a>
+                <br>
+                Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jekyll fork</a> of this page.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </table>
 </body>
+
 </html>
